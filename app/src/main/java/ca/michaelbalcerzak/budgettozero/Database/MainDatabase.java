@@ -23,7 +23,20 @@ public class MainDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        final String createCategoryTable = "CREATE TABLE category (category_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, budget_amount REAL)";
+        db.execSQL("PRAGMA foreign_keys=ON");
+
+        final String createResetFrequencyTable = "CREATE TABLE reset_frequency (reset_frequency_name TEXT UNIQUE)";
+        db.execSQL(createResetFrequencyTable);
+        db.execSQL("INSERT INTO reset_frequency VALUES ('NEVER');");
+        db.execSQL("INSERT INTO reset_frequency VALUES ('MONTHLY');");
+        db.execSQL("INSERT INTO reset_frequency VALUES ('BI_MONTHLY');");
+        db.execSQL("INSERT INTO reset_frequency VALUES ('BI_WEEKLY');");
+        db.execSQL("INSERT INTO reset_frequency VALUES ('WEEKLY');");
+        db.execSQL("INSERT INTO reset_frequency VALUES ('DAILY');");
+        db.execSQL("INSERT INTO reset_frequency VALUES ('CUSTOM');");
+
+        final String createCategoryTable = "CREATE TABLE category (category_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, budget_amount REAL," +
+                " reset_frequency_name text, FOREIGN KEY (reset_frequency_name) REFERENCES reset_frequency (reset_frequency_name));";
         db.execSQL(createCategoryTable);
 
         /*        final String queryTableVehicle = "CREATE TABLE vehicle (vehicle_id INTEGER PRIMARY KEY AUTOINCREMENT, " +

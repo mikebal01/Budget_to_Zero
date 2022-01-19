@@ -25,14 +25,13 @@
 
 
     <string-array name="budget_frequency_array">
-            <item>Mercury</item>
-            <item>Venus</item>
-            <item>Earth</item>
-            <item>Mars</item>
-            <item>Jupiter</item>
-            <item>Saturn</item>
-            <item>Uranus</item>
-            <item>Neptune</item>
+            <item>Never</item>
+            <item>Monthly</item>
+            <item>Bimonthly</item>
+            <item>Biweekly</item>
+            <item>Weekly</item>
+            <item>Daily</item>
+            <item>Custom</item>
         </string-array>
 
 </resources>

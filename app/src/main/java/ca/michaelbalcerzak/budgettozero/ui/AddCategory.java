@@ -5,15 +5,20 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+
+import ca.michaelbalcerzak.budgettozero.CategoryInfoStruct;
+import ca.michaelbalcerzak.budgettozero.Database.CategoryAdmin;
 import ca.michaelbalcerzak.budgettozero.R;
+import ca.michaelbalcerzak.budgettozero.ResetInterval;
 
 public class AddCategory extends Activity {
-    EditText _displayName, _make, _model, _year, _odometer;
-    RadioButton _km, _mile, _liters, _usGallons, _imperialGallons;
+    Button _addCategoryButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,27 +33,23 @@ public class AddCategory extends Activity {
     private void setupVariables(){
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
-// Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.budget_frequency_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
         spinner.setAdapter(adapter);
-/*        _displayName = findViewById(R.id.editTextDisplayName);
-        _make = findViewById(R.id.editTextmake);
-        _model = findViewById(R.id.editTextModel);
-        _year = findViewById(R.id.editTextYear);
-        _odometer = findViewById(R.id.editTextOdometer);
-        _km = findViewById(R.id.radioButtonDistanceKM);
-        _mile = findViewById(R.id.radioButtonDistanceMiles);
-        _liters = findViewById(R.id.radioButtonFillupLiters);
-        _usGallons = findViewById(R.id.radioButtonFillUpUSGallon);
-        _imperialGallons = findViewById(R.id.radioButtonFillUpImperialGallon);*/
+
+        _addCategoryButton = findViewById(R.id.addNewCatagoryButton);
+
     }
 
 
 
-    public void saveVehicleClicked(View view) {
+    public void createBudgetClicked(View view) {
+        CategoryAdmin categoryAdmin = new CategoryAdmin(this);
+        CategoryInfoStruct fakeCategory1 = new CategoryInfoStruct(null, "Cat 1", "250.00", ResetInterval.NEVER.name());
+        categoryAdmin.addCategory(fakeCategory1);
+        CategoryInfoStruct fakeCategory2 = new CategoryInfoStruct(null, "Dog 2", "666.66", ResetInterval.DAILY.name());
+        categoryAdmin.addCategory(fakeCategory2);
+        ArrayList<CategoryInfoStruct> allCategories = categoryAdmin.getAllCategories();
     }
 }
