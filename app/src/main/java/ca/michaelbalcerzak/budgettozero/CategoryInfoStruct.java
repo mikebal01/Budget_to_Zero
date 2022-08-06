@@ -2,10 +2,10 @@ package ca.michaelbalcerzak.budgettozero;
 
 public class CategoryInfoStruct {
 
-    private String _categoryPk;
-    private String _name;
-    private String _budgetAmount;
-    private String _resetInterval;
+    private final String _categoryPk;
+    private final String _name;
+    private final String _budgetAmount;
+    private final String _resetInterval;
 
     public CategoryInfoStruct(String categoryPk, String name, String budgetAmount, String resetInterval){
         _categoryPk = categoryPk;

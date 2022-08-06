@@ -22,6 +22,8 @@
     <string name="start_budgeting">Start Budgeting</string>
     <string name="button_create_budget_based_on_input">Create budget based on input</string>
     <string name="select_wheel_how_often_to_reset_budget">Select wheel how often to reset budget</string>
+    <string name="click_here_add_budget">Click here to add a category</string>
+    <string name="Summary">Summary</string>
 
 
     <string-array name="budget_frequency_array">

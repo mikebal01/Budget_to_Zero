@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -16,6 +17,9 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
+import ca.michaelbalcerzak.budgettozero.Database.CategoryAdmin;
 import ca.michaelbalcerzak.budgettozero.databinding.ActivityMainBinding;
 import ca.michaelbalcerzak.budgettozero.ui.AddCategory;
 
@@ -23,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    private TextView _selectedCategoryLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        binding.appBarMain.fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show());
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
@@ -50,18 +50,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-        ImageButton addNewCategory = (ImageButton) findViewById(R.id.addNewCategory);
-        addNewCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              //  if(getVehiclePk() != -1) {
-                    Intent openAddNewCategory = new Intent(MainActivity.this, AddCategory.class);
-                    //openAddFillUp.putExtra("vehiclePK", _vehicles.get(_vehicleIndex).getVehiclePK());
-                    startActivity(openAddNewCategory);
-               // }
-            }
-        });
+        createCategoryHeader();
     }
 
     @Override
@@ -76,5 +65,22 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    private void createCategoryHeader(){
+        _selectedCategoryLabel = findViewById(R.id.selectedCategoryLabel);
+        ArrayList<CategoryInfoStruct> allCategories = new CategoryAdmin(this).getAllCategories();
+        if(!allCategories.isEmpty()){
+            allCategories.add(0, new CategoryInfoStruct(null, getResources().getString(R.string.Summary), null, null));
+            _selectedCategoryLabel.setText(getResources().getString(R.string.Summary));
+        }
+        ImageButton addNewCategory = findViewById(R.id.addNewCategory);
+        addNewCategory.setOnClickListener(view -> {
+            //  if(getVehiclePk() != -1) {
+            Intent openAddNewCategory = new Intent(MainActivity.this, AddCategory.class);
+            //openAddFillUp.putExtra("vehiclePK", _vehicles.get(_vehicleIndex).getVehiclePK());
+            startActivity(openAddNewCategory);
+            // }
+        });
     }
 }
