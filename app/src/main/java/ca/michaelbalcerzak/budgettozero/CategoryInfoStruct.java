@@ -18,15 +18,15 @@ public class CategoryInfoStruct {
         return _categoryPk;
     }
 
-    public String get_name() {
+    public String getName() {
         return _name;
     }
 
-    public String get_budgetAmount() {
+    public String getBudgetAmount() {
         return _budgetAmount;
     }
 
-    public String get_resetInterval() {
+    public String getResetInterval() {
         return _resetInterval;
     }
 }

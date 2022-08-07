@@ -33,9 +33,9 @@ public class CategoryAdmin extends MainDatabase{
 
     private ContentValues createContentValuesForCategory(CategoryInfoStruct category){
         ContentValues values = new ContentValues();
-        values.put(NAME, category.get_name());
-        values.put(BUDGET_AMOUNT, category.get_budgetAmount());
-        values.put(RESET_FREQUENCY_NAME, category.get_resetInterval());
+        values.put(NAME, category.getName());
+        values.put(BUDGET_AMOUNT, category.getBudgetAmount());
+        values.put(RESET_FREQUENCY_NAME, category.getResetInterval());
         return values;
     }
 

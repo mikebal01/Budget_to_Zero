@@ -26,14 +26,14 @@ import ca.michaelbalcerzak.budgettozero.ui.AddCategory;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityMainBinding binding;
     private TextView _selectedCategoryLabel;
+    private int _categoryIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        ca.michaelbalcerzak.budgettozero.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
@@ -81,6 +81,20 @@ public class MainActivity extends AppCompatActivity {
             //openAddFillUp.putExtra("vehiclePK", _vehicles.get(_vehicleIndex).getVehiclePK());
             startActivity(openAddNewCategory);
             // }
+        });
+        ImageButton _nextCategory = findViewById(R.id.nextCategory);
+        _nextCategory.setOnClickListener(view -> {
+            if(++_categoryIndex == allCategories.size()){
+                _categoryIndex = 0;
+            }
+            _selectedCategoryLabel.setText(allCategories.get(_categoryIndex).getName());
+        });
+        ImageButton _previousCategory = findViewById(R.id.previousCategory);
+        _previousCategory.setOnClickListener(view -> {
+            if(--_categoryIndex < 0){
+                _categoryIndex = allCategories.size() - 1;
+            }
+            _selectedCategoryLabel.setText(allCategories.get(_categoryIndex).getName());
         });
     }
 }
