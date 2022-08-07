@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import ca.michaelbalcerzak.budgettozero.Database.CategoryAdmin;
 import ca.michaelbalcerzak.budgettozero.databinding.ActivityMainBinding;
 import ca.michaelbalcerzak.budgettozero.ui.AddCategory;
+import ca.michaelbalcerzak.budgettozero.ui.AddPurchase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,8 +38,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        binding.appBarMain.fab.setOnClickListener(view -> {
+            //  if(getVehiclePk() != -1) {
+            Intent openAddNewPurchase = new Intent(MainActivity.this, AddPurchase.class);
+            //openAddFillUp.putExtra("vehiclePK", _vehicles.get(_vehicleIndex).getVehiclePK());
+            startActivity(openAddNewPurchase);
+                });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each

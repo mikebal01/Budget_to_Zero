@@ -25,6 +25,10 @@
     <string name="click_here_add_budget">Click here to add a category</string>
     <string name="Summary">Summary</string>
 
+    <string name="remaining_budget">Remaining Budget Balance:</string>
+    <string name="description">Description:</string>
+    <string name="total_spent">Total Spent:</string>
+    <string name="new_remaining_budget">Remaining Budget:</string>
 
     <string-array name="budget_frequency_array">
             <item>Never</item>
