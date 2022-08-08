@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private TextView _selectedCategoryLabel;
     private int _categoryIndex = 0;
+    private ArrayList<CategoryInfoStruct> _allCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(view -> {
-            //  if(getVehiclePk() != -1) {
             Intent openAddNewPurchase = new Intent(MainActivity.this, AddPurchase.class);
-            //openAddFillUp.putExtra("vehiclePK", _vehicles.get(_vehicleIndex).getVehiclePK());
+            openAddNewPurchase.putExtra("categoryPk", _allCategories.get(_categoryIndex).getCategoryPk());
             startActivity(openAddNewPurchase);
                 });
         DrawerLayout drawer = binding.drawerLayout;
@@ -74,32 +74,29 @@ public class MainActivity extends AppCompatActivity {
 
     private void createCategoryHeader(){
         _selectedCategoryLabel = findViewById(R.id.selectedCategoryLabel);
-        ArrayList<CategoryInfoStruct> allCategories = new CategoryAdmin(this).getAllCategories();
-        if(!allCategories.isEmpty()){
-            allCategories.add(0, new CategoryInfoStruct(null, getResources().getString(R.string.Summary), null, null));
+        _allCategories = new CategoryAdmin(this).getAllCategories();
+        if(!_allCategories.isEmpty()){
+            _allCategories.add(0, new CategoryInfoStruct(null, getResources().getString(R.string.Summary), null, null));
             _selectedCategoryLabel.setText(getResources().getString(R.string.Summary));
         }
         ImageButton addNewCategory = findViewById(R.id.addNewCategory);
         addNewCategory.setOnClickListener(view -> {
-            //  if(getVehiclePk() != -1) {
             Intent openAddNewCategory = new Intent(MainActivity.this, AddCategory.class);
-            //openAddFillUp.putExtra("vehiclePK", _vehicles.get(_vehicleIndex).getVehiclePK());
             startActivity(openAddNewCategory);
-            // }
         });
         ImageButton _nextCategory = findViewById(R.id.nextCategory);
         _nextCategory.setOnClickListener(view -> {
-            if(++_categoryIndex == allCategories.size()){
+            if(++_categoryIndex == _allCategories.size()){
                 _categoryIndex = 0;
             }
-            _selectedCategoryLabel.setText(allCategories.get(_categoryIndex).getName());
+            _selectedCategoryLabel.setText(_allCategories.get(_categoryIndex).getName());
         });
         ImageButton _previousCategory = findViewById(R.id.previousCategory);
         _previousCategory.setOnClickListener(view -> {
             if(--_categoryIndex < 0){
-                _categoryIndex = allCategories.size() - 1;
+                _categoryIndex = _allCategories.size() - 1;
             }
-            _selectedCategoryLabel.setText(allCategories.get(_categoryIndex).getName());
+            _selectedCategoryLabel.setText(_allCategories.get(_categoryIndex).getName());
         });
     }
 }

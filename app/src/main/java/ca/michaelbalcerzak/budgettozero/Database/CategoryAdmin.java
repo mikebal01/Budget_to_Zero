@@ -42,22 +42,41 @@ public class CategoryAdmin extends MainDatabase{
 
     @SuppressLint("Range")
     public ArrayList<CategoryInfoStruct> getAllCategories() {
-        final String query = "SELECT * FROM " + CATEGORY_TABLE;
+        final String query = "SELECT * FROM " + CATEGORY_TABLE + " ORDER BY " + NAME + " DESC";
         SQLiteDatabase db = getReadableDatabase();
-        ArrayList<CategoryInfoStruct> recordViewList = new ArrayList<>();
+        ArrayList<CategoryInfoStruct> CategoryViewList = new ArrayList<>();
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {
-                    recordViewList.add(new CategoryInfoStruct(cursor.getString(cursor.getColumnIndex(CATEGORY_ID)),
-                    cursor.getString(cursor.getColumnIndex(NAME)),
-                    cursor.getString(cursor.getColumnIndex(BUDGET_AMOUNT)),
-                    cursor.getString(cursor.getColumnIndex(RESET_FREQUENCY_NAME))));
+            CategoryViewList.add(new CategoryInfoStruct(cursor.getString(cursor.getColumnIndex(CATEGORY_ID)),
+                                                              cursor.getString(cursor.getColumnIndex(NAME)),
+                                                              cursor.getString(cursor.getColumnIndex(BUDGET_AMOUNT)),
+                                                              cursor.getString(cursor.getColumnIndex(RESET_FREQUENCY_NAME))));
             cursor.moveToNext();
         }
         cursor.close();
         db.close();
-        return recordViewList;
+        return CategoryViewList;
+    }
+
+    @SuppressLint("Range")
+    public CategoryInfoStruct getCategoryByPk(String categoryPk) {
+        final String query = "SELECT * FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_ID + " = " + categoryPk;
+        SQLiteDatabase db = getReadableDatabase();
+        CategoryInfoStruct category = null;
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+
+        if (!cursor.isAfterLast()) {
+            category = (new CategoryInfoStruct(cursor.getString(cursor.getColumnIndex(CATEGORY_ID)),
+                                               cursor.getString(cursor.getColumnIndex(NAME)),
+                                               cursor.getString(cursor.getColumnIndex(BUDGET_AMOUNT)),
+                                               cursor.getString(cursor.getColumnIndex(RESET_FREQUENCY_NAME))));
+        }
+        cursor.close();
+        db.close();
+        return category;
     }
 
 }

@@ -14,7 +14,7 @@ public class CategoryInfoStruct {
         _resetInterval = resetInterval;
     }
 
-    public String get_categoryPk() {
+    public String getCategoryPk() {
         return _categoryPk;
     }
 
