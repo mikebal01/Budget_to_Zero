@@ -2,16 +2,12 @@ package ca.michaelbalcerzak.budgettozero.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.Spinner;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.material.navigation.NavigationBarView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -20,6 +16,11 @@ import ca.michaelbalcerzak.budgettozero.Database.CategoryAdmin;
 import ca.michaelbalcerzak.budgettozero.R;
 
 public class AddPurchase extends Activity {
+
+    private TextView _description;
+    private TextView _totalSpent;
+    private DatePicker _purchaseDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +36,9 @@ public class AddPurchase extends Activity {
 
     private void setupVariables(String startCategoryPk){
         setupCategorySpinner(startCategoryPk);
+        TextView remainingBudgetStart = findViewById(R.id.textViewRemainingBudgetStart);
+        remainingBudgetStart.setText("221");
+
         /*_resetFrequency = findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.budget_frequency_array, android.R.layout.simple_spinner_item);
@@ -76,5 +80,9 @@ public class AddPurchase extends Activity {
             }
 
         });
+    }
+
+    public void addPurchaseClicked(View view) {
+        finish();
     }
 }

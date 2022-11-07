@@ -20,6 +20,7 @@
     <string name="budget_amount">Budget Amount:</string>
     <string name="reset_frequency">Reset Frequency:</string>
     <string name="start_budgeting">Start Budgeting</string>
+    <string name="add_purchase">Add Purchase</string>
     <string name="button_create_budget_based_on_input">Create budget based on input</string>
     <string name="select_wheel_how_often_to_reset_budget">Select wheel how often to reset budget</string>
     <string name="click_here_add_budget">Click here to add a category</string>
@@ -29,6 +30,7 @@
     <string name="description">Description:</string>
     <string name="total_spent">Total Spent:</string>
     <string name="new_remaining_budget">Remaining Budget:</string>
+    <string name="purchase_date">Purchase Date:</string>
 
     <string-array name="budget_frequency_array">
             <item>Never</item>
