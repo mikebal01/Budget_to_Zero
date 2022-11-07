@@ -5,12 +5,14 @@ public class CategoryInfoStruct {
     private final String _categoryPk;
     private final String _name;
     private final String _budgetAmount;
+    private final String _remainingBudget;
     private final String _resetInterval;
 
-    public CategoryInfoStruct(String categoryPk, String name, String budgetAmount, String resetInterval){
+    public CategoryInfoStruct(String categoryPk, String name, String budgetAmount, String resetInterval, String remainingBudget){
         _categoryPk = categoryPk;
         _name = name;
         _budgetAmount = budgetAmount;
+        _remainingBudget = remainingBudget;
         _resetInterval = resetInterval;
     }
 
@@ -24,6 +26,10 @@ public class CategoryInfoStruct {
 
     public String getBudgetAmount() {
         return _budgetAmount;
+    }
+
+    public String getRemainingBudgetAmount() {
+        return _remainingBudget;
     }
 
     public String getResetInterval() {

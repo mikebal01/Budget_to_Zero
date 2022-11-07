@@ -12,14 +12,19 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ca.michaelbalcerzak.budgettozero.CategoryInfoStruct;
+import ca.michaelbalcerzak.budgettozero.CommonHelpers.DateHelper;
 import ca.michaelbalcerzak.budgettozero.Database.CategoryAdmin;
+import ca.michaelbalcerzak.budgettozero.Database.PurchaseAdmin;
+import ca.michaelbalcerzak.budgettozero.PurchaseInfoStruct;
 import ca.michaelbalcerzak.budgettozero.R;
 
 public class AddPurchase extends Activity {
 
     private TextView _description;
     private TextView _totalSpent;
-    private DatePicker _purchaseDate;
+    private DatePicker _purchaseDatePicker;
+    private TextView _remainingBudget;
+    private Spinner _spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,43 +40,38 @@ public class AddPurchase extends Activity {
     }
 
     private void setupVariables(String startCategoryPk){
+        _remainingBudget = findViewById(R.id.textViewRemainingBudgetStart);
+        _description = findViewById(R.id.editTextDescription);
+        _totalSpent = findViewById(R.id.editTextTotalSpent);
+        _purchaseDatePicker = findViewById(R.id.datePicker1);
         setupCategorySpinner(startCategoryPk);
-        TextView remainingBudgetStart = findViewById(R.id.textViewRemainingBudgetStart);
-        remainingBudgetStart.setText("221");
 
-        /*_resetFrequency = findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.budget_frequency_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        _resetFrequency.setAdapter(adapter);
 
-        _addCategoryButton = findViewById(R.id.addNewCatagoryButton);
-        _categoryName = findViewById(R.id.editTextTextCategoryName);
-        _budgetAmount = findViewById(R.id.editTextBudgetAmount);*/
     }
 
     private void setupCategorySpinner(String startCategoryPk){
-        Spinner spinner = findViewById(R.id.addPurchaseCategorySpinner);
+        _spinner = findViewById(R.id.addPurchaseCategorySpinner);
         CategoryAdmin categoryAdmin = new CategoryAdmin(this);
         int spinnerStartPosition = -1;
         ArrayList<CategoryInfoStruct> allCategories = categoryAdmin.getAllCategories();
         ArrayList<String> categoryNames = new ArrayList<>();
         for(CategoryInfoStruct categoryInfoStruct : allCategories){
             categoryNames.add(categoryInfoStruct.getName());
-            if(startCategoryPk != null && categoryInfoStruct.getCategoryPk().equals(startCategoryPk)){
+            if(categoryInfoStruct.getCategoryPk().equals(startCategoryPk)){
                 spinnerStartPosition += categoryNames.size();
+                _remainingBudget.setText(categoryAdmin.getCategoryByPk(startCategoryPk).getRemainingBudgetAmount());
             }
         }
-        ArrayAdapter<String> adp = new ArrayAdapter<String> (this,android.R.layout.simple_spinner_dropdown_item,categoryNames);
-        spinner.setAdapter(adp);
+        ArrayAdapter<String> adp = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categoryNames);
+        _spinner.setAdapter(adp);
 
         if (startCategoryPk != null){
-            spinner.setSelection(spinnerStartPosition);
+            _spinner.setSelection(spinnerStartPosition);
         }
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        _spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // your code here
+                _remainingBudget.setText(categoryAdmin.getCategoryByName(_spinner.getSelectedItem().toString()).getRemainingBudgetAmount());
             }
 
             @Override
@@ -83,6 +83,14 @@ public class AddPurchase extends Activity {
     }
 
     public void addPurchaseClicked(View view) {
+        PurchaseInfoStruct purchase = new PurchaseInfoStruct(null, _description.getText().toString(), _totalSpent.getText().toString(), DateHelper.formatDateFromPicker(_purchaseDatePicker), _spinner.getSelectedItem().toString());
+        PurchaseAdmin purchaseAdmin = new PurchaseAdmin(this);
+        purchaseAdmin.addPurchase(purchase);
+
+        CategoryAdmin categoryAdmin = new CategoryAdmin(this);
+        double startingBalance = Double.parseDouble(_remainingBudget.getText().toString());
+        double debit = Double.parseDouble(purchase.getSpendAmount());
+        categoryAdmin.debitCategoryForPurchase(purchase.getCategoryName(), String.valueOf(startingBalance-debit));
         finish();
     }
 }

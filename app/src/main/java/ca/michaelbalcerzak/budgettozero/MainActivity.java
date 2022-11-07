@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         _selectedCategoryLabel = findViewById(R.id.selectedCategoryLabel);
         _allCategories = new CategoryAdmin(this).getAllCategories();
         if(!_allCategories.isEmpty()){
-            _allCategories.add(0, new CategoryInfoStruct(null, getResources().getString(R.string.Summary), null, null));
+            _allCategories.add(0, new CategoryInfoStruct(null, getResources().getString(R.string.Summary), null, null, null));
             _selectedCategoryLabel.setText(getResources().getString(R.string.Summary));
         }
         ImageButton addNewCategory = findViewById(R.id.addNewCategory);

@@ -17,6 +17,7 @@ public class CategoryAdmin extends MainDatabase{
     private final String NAME = "name";
     private final String BUDGET_AMOUNT = "budget_amount";
     private final String RESET_FREQUENCY_NAME = "reset_frequency_name";
+    private final String REMAINING_BUDGET_AMOUNT = "budget_remaining";
     private Context _context;
 
     public CategoryAdmin(Context context) {
@@ -35,6 +36,7 @@ public class CategoryAdmin extends MainDatabase{
         ContentValues values = new ContentValues();
         values.put(NAME, category.getName());
         values.put(BUDGET_AMOUNT, category.getBudgetAmount());
+        values.put(REMAINING_BUDGET_AMOUNT, category.getRemainingBudgetAmount());
         values.put(RESET_FREQUENCY_NAME, category.getResetInterval());
         return values;
     }
@@ -52,7 +54,8 @@ public class CategoryAdmin extends MainDatabase{
             CategoryViewList.add(new CategoryInfoStruct(cursor.getString(cursor.getColumnIndex(CATEGORY_ID)),
                                                               cursor.getString(cursor.getColumnIndex(NAME)),
                                                               cursor.getString(cursor.getColumnIndex(BUDGET_AMOUNT)),
-                                                              cursor.getString(cursor.getColumnIndex(RESET_FREQUENCY_NAME))));
+                                                              cursor.getString(cursor.getColumnIndex(RESET_FREQUENCY_NAME)),
+                                                              cursor.getString(cursor.getColumnIndex(REMAINING_BUDGET_AMOUNT))));
             cursor.moveToNext();
         }
         cursor.close();
@@ -72,11 +75,40 @@ public class CategoryAdmin extends MainDatabase{
             category = (new CategoryInfoStruct(cursor.getString(cursor.getColumnIndex(CATEGORY_ID)),
                                                cursor.getString(cursor.getColumnIndex(NAME)),
                                                cursor.getString(cursor.getColumnIndex(BUDGET_AMOUNT)),
-                                               cursor.getString(cursor.getColumnIndex(RESET_FREQUENCY_NAME))));
+                                               cursor.getString(cursor.getColumnIndex(RESET_FREQUENCY_NAME)),
+                                               cursor.getString(cursor.getColumnIndex(REMAINING_BUDGET_AMOUNT))));
+        }
+        cursor.close();
+        db.close();
+        return category;
+    }
+    @SuppressLint("Range")
+    public CategoryInfoStruct getCategoryByName(String categoryName) {
+        final String query = "SELECT * FROM " + CATEGORY_TABLE + " WHERE " + NAME + " = \'" + categoryName + "\'";
+        SQLiteDatabase db = getReadableDatabase();
+        CategoryInfoStruct category = null;
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+
+        if (!cursor.isAfterLast()) {
+            category = (new CategoryInfoStruct(cursor.getString(cursor.getColumnIndex(CATEGORY_ID)),
+                    cursor.getString(cursor.getColumnIndex(NAME)),
+                    cursor.getString(cursor.getColumnIndex(BUDGET_AMOUNT)),
+                    cursor.getString(cursor.getColumnIndex(RESET_FREQUENCY_NAME)),
+                    cursor.getString(cursor.getColumnIndex(REMAINING_BUDGET_AMOUNT))));
         }
         cursor.close();
         db.close();
         return category;
     }
 
+    public void debitCategoryForPurchase(String categoryName, String newRemainingBalance){
+        ContentValues values = new ContentValues();
+        values.put(NAME, categoryName);
+        values.put(REMAINING_BUDGET_AMOUNT, newRemainingBalance);
+
+        SQLiteDatabase db = getWritableDatabase();
+        db.update(CATEGORY_TABLE, values, NAME + " = \'" + categoryName + "\'", null);
+        db.close();
+    }
 }

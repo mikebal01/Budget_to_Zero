@@ -36,7 +36,7 @@ public class MainDatabase extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO reset_frequency VALUES ('CUSTOM');");
 
         final String createCategoryTable = "CREATE TABLE category (category_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, budget_amount REAL," +
-                " reset_frequency_name text, FOREIGN KEY (reset_frequency_name) REFERENCES reset_frequency (reset_frequency_name));";
+                " budget_remaining REAL, reset_frequency_name text, FOREIGN KEY (reset_frequency_name) REFERENCES reset_frequency (reset_frequency_name));";
         db.execSQL(createCategoryTable);
 
         final String createPurchaseTable = "CREATE TABLE purchase (purchase_id INTEGER PRIMARY KEY AUTOINCREMENT, category_name TEXT, description TEXT, cost REAL," +

@@ -12,13 +12,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginTop="88dp"
-        android:labelFor="@+id/editTextTextCategoryName"
+        android:labelFor="@+id/editTextDescription"
         android:text="@string/remaining_budget"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextCategoryName"
+        android:id="@+id/editTextDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="92dp"
@@ -38,13 +38,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:contentDescription="@string/text_input_for_budget_amount"
-        android:labelFor="@+id/editTextBudgetAmount"
+        android:labelFor="@+id/editTextTotalSpent"
         android:text="@string/total_spent"
-        app:layout_constraintStart_toStartOf="@+id/editTextBudgetAmount"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextCategoryName" />
+        app:layout_constraintStart_toStartOf="@+id/editTextTotalSpent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescription" />
 
     <EditText
-        android:id="@+id/editTextBudgetAmount"
+        android:id="@+id/editTextTotalSpent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -66,7 +66,7 @@
         android:layout_marginTop="184dp"
         android:text="@string/new_remaining_budget"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextBudgetAmount" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTotalSpent" />
 
     <Button
         android:id="@+id/addNewCatagoryButton"
@@ -105,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextCategoryName"
+        app:layout_constraintBottom_toTopOf="@+id/editTextDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.076"
         app:layout_constraintStart_toEndOf="@+id/textView3"
@@ -118,10 +118,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         android:text="@string/description"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextTextCategoryName"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextCategoryName"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextDescription"
+        app:layout_constraintEnd_toEndOf="@+id/editTextDescription"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextCategoryName"
+        app:layout_constraintStart_toStartOf="@+id/editTextDescription"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         app:layout_constraintVertical_bias="0.04" />
 
@@ -146,7 +146,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.264"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextBudgetAmount" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTotalSpent" />
 
     <DatePicker
         android:id="@+id/datePicker1"

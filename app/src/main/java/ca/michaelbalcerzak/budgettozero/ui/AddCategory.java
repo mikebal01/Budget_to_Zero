@@ -7,15 +7,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Spinner;
-
-import java.util.ArrayList;
 
 import ca.michaelbalcerzak.budgettozero.CategoryInfoStruct;
 import ca.michaelbalcerzak.budgettozero.Database.CategoryAdmin;
 import ca.michaelbalcerzak.budgettozero.R;
-import ca.michaelbalcerzak.budgettozero.ResetInterval;
 
 public class AddCategory extends Activity {
     Button _addCategoryButton;
@@ -43,15 +39,16 @@ public class AddCategory extends Activity {
         _resetFrequency.setAdapter(adapter);
 
         _addCategoryButton = findViewById(R.id.addNewCatagoryButton);
-        _categoryName = findViewById(R.id.editTextTextCategoryName);
-        _budgetAmount = findViewById(R.id.editTextBudgetAmount);
+        _categoryName = findViewById(R.id.editTextDescription);
+        _budgetAmount = findViewById(R.id.editTextTotalSpent);
     }
 
     private CategoryInfoStruct createBudgetCategoryFromUserInput(){
         return new CategoryInfoStruct(null,
                 _categoryName.getText().toString(),
                 _budgetAmount.getText().toString(),
-                _resetFrequency.getSelectedItem().toString().toUpperCase());
+                _resetFrequency.getSelectedItem().toString().toUpperCase(),
+                _budgetAmount.getText().toString());
     }
 
     public void createBudgetClicked(View view) {
