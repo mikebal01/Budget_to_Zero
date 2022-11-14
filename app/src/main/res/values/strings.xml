@@ -31,6 +31,8 @@
     <string name="total_spent">Total Spent:</string>
     <string name="new_remaining_budget">Remaining Budget:</string>
     <string name="purchase_date">Purchase Date:</string>
+    <string name="remaining">Remaining</string>
+    <string name="starting_amount">Starting Amount</string>
 
     <string-array name="budget_frequency_array">
             <item>Never</item>

@@ -2,12 +2,10 @@ package ca.michaelbalcerzak.budgettozero;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -90,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 _categoryIndex = 0;
             }
             _selectedCategoryLabel.setText(_allCategories.get(_categoryIndex).getName());
+            updateBreakdown(_allCategories.get(_categoryIndex).getName());
         });
         ImageButton _previousCategory = findViewById(R.id.previousCategory);
         _previousCategory.setOnClickListener(view -> {
@@ -97,6 +96,24 @@ public class MainActivity extends AppCompatActivity {
                 _categoryIndex = _allCategories.size() - 1;
             }
             _selectedCategoryLabel.setText(_allCategories.get(_categoryIndex).getName());
+            updateBreakdown(_allCategories.get(_categoryIndex).getName());
         });
+    }
+
+    private void updateBreakdown(String categoryName){
+        TextView textviewStartingAmount = findViewById(R.id.textView_startingAmount);
+        TextView textviewRemainingAmount = findViewById(R.id.textView_remainingAmmount);
+        final String SUMMARY = "Summary";
+        CategoryAdmin categoryAdmin = new CategoryAdmin(this);
+        if (categoryName.equals(SUMMARY)){
+
+        }
+        else {
+            CategoryInfoStruct categoryByName = categoryAdmin.getCategoryByName(categoryName);
+            if (categoryByName != null) {
+                textviewStartingAmount.setText(categoryByName.getBudgetAmount());
+                textviewRemainingAmount.setText(categoryByName.getRemainingBudgetAmount());
+            }
+        }
     }
 }
