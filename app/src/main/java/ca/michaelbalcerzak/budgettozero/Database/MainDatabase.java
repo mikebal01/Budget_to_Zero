@@ -42,19 +42,6 @@ public class MainDatabase extends SQLiteOpenHelper {
         final String createPurchaseTable = "CREATE TABLE purchase (purchase_id INTEGER PRIMARY KEY AUTOINCREMENT, category_name TEXT, description TEXT, cost REAL," +
                 " date text, FOREIGN KEY (category_name) REFERENCES category (name));";
         db.execSQL(createPurchaseTable);
-        /*        final String queryTableVehicle = "CREATE TABLE vehicle (vehicle_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "display_name TEXT, " +
-                "cost_per_unit TEXT, " +
-                "production_year INTEGER," +
-                "model TEXT, " +
-                "make TEXT, " +
-                "odometer INTEGER," +
-                "distance_unit_type TEXT," +
-                "default_fuel_unit_type TEXT," +
-                "FOREIGN KEY (distance_unit_type) REFERENCES distance_type (distance_type_code)," +
-                "FOREIGN KEY (default_fuel_unit_type) REFERENCES fuel_type (fuel_type_code));";
-        db.execSQL(queryTableVehicle);*/
-
     }
 
     @Override

@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         createCategoryHeader();
+        updateBreakdown("Summary");
     }
 
     @Override
@@ -106,7 +107,8 @@ public class MainActivity extends AppCompatActivity {
         final String SUMMARY = "Summary";
         CategoryAdmin categoryAdmin = new CategoryAdmin(this);
         if (categoryName.equals(SUMMARY)){
-
+            textviewStartingAmount.setText(categoryAdmin.getSumOfTotalBudgets());
+            textviewRemainingAmount.setText(categoryAdmin.getSumOfRemainingBudgetAmounts());
         }
         else {
             CategoryInfoStruct categoryByName = categoryAdmin.getCategoryByName(categoryName);

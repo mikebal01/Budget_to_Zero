@@ -18,11 +18,9 @@ public class CategoryAdmin extends MainDatabase{
     private final String BUDGET_AMOUNT = "budget_amount";
     private final String RESET_FREQUENCY_NAME = "reset_frequency_name";
     private final String REMAINING_BUDGET_AMOUNT = "budget_remaining";
-    private Context _context;
 
     public CategoryAdmin(Context context) {
         super(context);
-        _context = context;
     }
 
     public void addCategory(CategoryInfoStruct category) {
@@ -84,7 +82,7 @@ public class CategoryAdmin extends MainDatabase{
     }
     @SuppressLint("Range")
     public CategoryInfoStruct getCategoryByName(String categoryName) {
-        final String query = "SELECT * FROM " + CATEGORY_TABLE + " WHERE " + NAME + " = \'" + categoryName + "\'";
+        final String query = "SELECT * FROM " + CATEGORY_TABLE + " WHERE " + NAME + " = \'" + categoryName + "'";
         SQLiteDatabase db = getReadableDatabase();
         CategoryInfoStruct category = null;
         Cursor cursor = db.rawQuery(query, null);
@@ -108,7 +106,26 @@ public class CategoryAdmin extends MainDatabase{
         values.put(REMAINING_BUDGET_AMOUNT, newRemainingBalance);
 
         SQLiteDatabase db = getWritableDatabase();
-        db.update(CATEGORY_TABLE, values, NAME + " = \'" + categoryName + "\'", null);
+        db.update(CATEGORY_TABLE, values, NAME + " = '" + categoryName + "\'", null);
         db.close();
+    }
+
+    public String getSumOfRemainingBudgetAmounts(){
+        return getCategorySumAsString(REMAINING_BUDGET_AMOUNT);
+    }
+
+    public String getSumOfTotalBudgets(){
+        return getCategorySumAsString(BUDGET_AMOUNT);
+    }
+
+    private String getCategorySumAsString(String columnToSum){
+        final String query = "SELECT SUM(" + columnToSum + ") FROM " + CATEGORY_TABLE;
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        String remainingBudget = cursor.getString(0);
+        cursor.close();
+        db.close();
+        return remainingBudget;
     }
 }
