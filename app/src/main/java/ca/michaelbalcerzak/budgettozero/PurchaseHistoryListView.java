@@ -12,12 +12,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+
 public class PurchaseHistoryListView extends BaseAdapter {
     private final Activity context;
-    private final PurchaseInfoStruct[] _purchases;
+    private final ArrayList<PurchaseInfoStruct> _purchases;
 
 
-    public PurchaseHistoryListView(Activity context, PurchaseInfoStruct[] purchases) {
+    public PurchaseHistoryListView(Activity context, ArrayList<PurchaseInfoStruct> purchases) {
        // super(context, R.layout.purchasehistory);
         // TODO Auto-generated constructor stub
 
@@ -28,12 +30,12 @@ public class PurchaseHistoryListView extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return _purchases.length;
+        return _purchases.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return _purchases[position];
+        return _purchases.get(position);
     }
 
     @Override
@@ -45,15 +47,14 @@ public class PurchaseHistoryListView extends BaseAdapter {
         LayoutInflater inflater=context.getLayoutInflater();
         View rowView=inflater.inflate(R.layout.purchasehistory, null,true);
 
-        TextView purchaseDate = (TextView) rowView.findViewById(R.id.purchaseDate);
-        TextView purchaseDescription = (TextView) rowView.findViewById(R.id.purchaseDescription);
-        TextView purchaseCost = (TextView) rowView.findViewById(R.id.purchaseCost);
+        TextView purchaseDate = rowView.findViewById(R.id.purchaseDate);
+        TextView purchaseDescription = rowView.findViewById(R.id.purchaseDescription);
+        TextView purchaseCost = rowView.findViewById(R.id.purchaseCost);
 
-        purchaseDate.setText(_purchases[position].getSpendDate());
-        purchaseDescription.setText(_purchases[position].getDescription());
-        purchaseCost.setText(_purchases[position].getSpendAmount());
+        purchaseDate.setText(_purchases.get(position).getSpendDate());
+        purchaseDescription.setText(_purchases.get(position).getDescription());
+        purchaseCost.setText(_purchases.get(position).getSpendAmount());
 
         return rowView;
-
-    };
+    }
 }

@@ -40,6 +40,16 @@ public class PurchaseAdmin extends MainDatabase{
         return values;
     }
 
+    public ArrayList<PurchaseInfoStruct> get25MostRecentPurchases(){
+        final String QUERY = "SELECT * FROM " + PURCHASE_TABLE + " ORDER BY " + ID + " DESC LIMIT 25";
+        return getPurchasesList(QUERY);
+    }
+
+    public ArrayList<PurchaseInfoStruct> get25MostRecentPurchasesForCategory(String category){
+        final String QUERY = "SELECT * FROM " + PURCHASE_TABLE + " WHERE " + CATEGORY_NAME + " = \'" + category +"\' ORDER BY " + ID + " DESC LIMIT 25";
+        return getPurchasesList(QUERY);
+    }
+
     @SuppressLint("Range")
     private ArrayList<PurchaseInfoStruct> getPurchasesList(final String QUERY) {
         SQLiteDatabase db = getReadableDatabase();

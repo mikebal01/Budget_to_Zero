@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 import ca.michaelbalcerzak.budgettozero.Database.CategoryAdmin;
+import ca.michaelbalcerzak.budgettozero.Database.PurchaseAdmin;
 import ca.michaelbalcerzak.budgettozero.databinding.ActivityMainBinding;
 import ca.michaelbalcerzak.budgettozero.ui.AddCategory;
 import ca.michaelbalcerzak.budgettozero.ui.AddPurchase;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView _selectedCategoryLabel;
     private int _categoryIndex = 0;
     private ArrayList<CategoryInfoStruct> _allCategories;
+    final String SUMMARY = "Summary";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         createCategoryHeader();
-        updateBreakdown("Summary");
-        updateRecentHistory();
+        updateDisplayForCategory(SUMMARY);
     }
 
     @Override
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 _categoryIndex = 0;
             }
             _selectedCategoryLabel.setText(_allCategories.get(_categoryIndex).getName());
-            updateBreakdown(_allCategories.get(_categoryIndex).getName());
+            updateDisplayForCategory(_allCategories.get(_categoryIndex).getName());
         });
         ImageButton _previousCategory = findViewById(R.id.previousCategory);
         _previousCategory.setOnClickListener(view -> {
@@ -99,14 +100,14 @@ public class MainActivity extends AppCompatActivity {
                 _categoryIndex = _allCategories.size() - 1;
             }
             _selectedCategoryLabel.setText(_allCategories.get(_categoryIndex).getName());
-            updateBreakdown(_allCategories.get(_categoryIndex).getName());
+            updateDisplayForCategory(_allCategories.get(_categoryIndex).getName());
         });
     }
 
     private void updateBreakdown(String categoryName){
         TextView textviewStartingAmount = findViewById(R.id.textView_startingAmount);
         TextView textviewRemainingAmount = findViewById(R.id.textView_remainingAmmount);
-        final String SUMMARY = "Summary";
+
         CategoryAdmin categoryAdmin = new CategoryAdmin(this);
         if (categoryName.equals(SUMMARY)){
             textviewStartingAmount.setText(categoryAdmin.getSumOfTotalBudgets());
@@ -121,17 +122,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void updateRecentHistory(){
-        PurchaseInfoStruct purchaseInfoStruct = new PurchaseInfoStruct(null, "Test", "10.00", "10/12/12", "CHICKEN");
-        PurchaseInfoStruct purchaseInfoStruct1 = new PurchaseInfoStruct(null, "Test1", "20.00", "11/12/12", "CHICKEN");
-        PurchaseInfoStruct purchaseInfoStruct2 = new PurchaseInfoStruct(null, "Test2", "30.00", "13/12/12", "CHICKEN");
-        PurchaseInfoStruct[] list = new PurchaseInfoStruct[3];
-        list[0] = purchaseInfoStruct;
-        list[1] = purchaseInfoStruct1;
-        list[2] = purchaseInfoStruct2;
-
-        PurchaseHistoryListView adapter=new PurchaseHistoryListView(this, list);
-        ListView historyList = (ListView)findViewById(R.id.historyList);
+    private void updateRecentHistory(String category){
+        PurchaseAdmin purchaseAdmin = new PurchaseAdmin(this);
+        ArrayList<PurchaseInfoStruct> mostRecentPurchases;
+        if(category.equals(SUMMARY)) {
+            mostRecentPurchases = purchaseAdmin.get25MostRecentPurchases();
+        } else{
+            mostRecentPurchases = purchaseAdmin.get25MostRecentPurchasesForCategory(category);
+        }
+        PurchaseHistoryListView adapter=new PurchaseHistoryListView(this, mostRecentPurchases);
+        ListView historyList = findViewById(R.id.historyList);
         historyList.setAdapter(adapter);
     }
 
@@ -139,7 +139,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         createCategoryHeader();
-        updateBreakdown("Summary");
-        updateRecentHistory();
+        updateDisplayForCategory(SUMMARY);
+    }
+
+    private void updateDisplayForCategory(String category){
+        updateBreakdown(category);
+        updateRecentHistory(category);
     }
 }
