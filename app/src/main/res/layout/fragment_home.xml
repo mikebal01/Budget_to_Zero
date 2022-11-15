@@ -120,4 +120,13 @@
         app:layout_constraintTop_toBottomOf="@+id/selectedCategoryLabel"
         app:layout_constraintVertical_bias="1.0" />
 
+    <ListView
+        android:id="@+id/historyList"
+        android:layout_width="374dp"
+        android:layout_height="392dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_startingAmount" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

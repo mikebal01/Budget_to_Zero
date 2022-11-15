@@ -1,9 +1,14 @@
 package ca.michaelbalcerzak.budgettozero.Database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+
+import ca.michaelbalcerzak.budgettozero.CategoryInfoStruct;
 import ca.michaelbalcerzak.budgettozero.PurchaseInfoStruct;
 
 public class PurchaseAdmin extends MainDatabase{
@@ -13,6 +18,7 @@ public class PurchaseAdmin extends MainDatabase{
     private final String DESCRIPTION = "description";
     private final String PURCHASE_COST = "cost";
     private final String DATE = "date";
+    private final String ID = "purchase_id";
 
     public PurchaseAdmin(Context context) {
         super(context);
@@ -32,5 +38,25 @@ public class PurchaseAdmin extends MainDatabase{
         values.put(PURCHASE_COST, purchase.getSpendAmount());
         values.put(DATE, purchase.getSpendDate());
         return values;
+    }
+
+    @SuppressLint("Range")
+    private ArrayList<PurchaseInfoStruct> getPurchasesList(final String QUERY) {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<PurchaseInfoStruct> purchaseList = new ArrayList<>();
+        Cursor cursor = db.rawQuery(QUERY, null);
+        cursor.moveToFirst();
+//(String purchasePK, String description, String spentAmount, String date, String categoryName){
+        while (!cursor.isAfterLast()) {
+            purchaseList.add(new PurchaseInfoStruct(cursor.getString(cursor.getColumnIndex(ID)),
+                    cursor.getString(cursor.getColumnIndex(DESCRIPTION)),
+                    cursor.getString(cursor.getColumnIndex(PURCHASE_COST)),
+                    cursor.getString(cursor.getColumnIndex(DATE)),
+                    cursor.getString(cursor.getColumnIndex(CATEGORY_NAME))));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        db.close();
+        return purchaseList;
     }
 }

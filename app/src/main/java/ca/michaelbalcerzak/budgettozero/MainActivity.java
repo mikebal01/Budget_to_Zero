@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
         createCategoryHeader();
         updateBreakdown("Summary");
+        updateRecentHistory();
     }
 
     @Override
@@ -117,5 +119,27 @@ public class MainActivity extends AppCompatActivity {
                 textviewRemainingAmount.setText(categoryByName.getRemainingBudgetAmount());
             }
         }
+    }
+
+    private void updateRecentHistory(){
+        PurchaseInfoStruct purchaseInfoStruct = new PurchaseInfoStruct(null, "Test", "10.00", "10/12/12", "CHICKEN");
+        PurchaseInfoStruct purchaseInfoStruct1 = new PurchaseInfoStruct(null, "Test1", "20.00", "11/12/12", "CHICKEN");
+        PurchaseInfoStruct purchaseInfoStruct2 = new PurchaseInfoStruct(null, "Test2", "30.00", "13/12/12", "CHICKEN");
+        PurchaseInfoStruct[] list = new PurchaseInfoStruct[3];
+        list[0] = purchaseInfoStruct;
+        list[1] = purchaseInfoStruct1;
+        list[2] = purchaseInfoStruct2;
+
+        PurchaseHistoryListView adapter=new PurchaseHistoryListView(this, list);
+        ListView historyList = (ListView)findViewById(R.id.historyList);
+        historyList.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        createCategoryHeader();
+        updateBreakdown("Summary");
+        updateRecentHistory();
     }
 }
