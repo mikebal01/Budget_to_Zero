@@ -3,6 +3,7 @@ package ca.michaelbalcerzak.budgettozero;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,7 +28,7 @@ import ca.michaelbalcerzak.budgettozero.ui.AddPurchase;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private TextView _selectedCategoryLabel;
+    private Button _selectedCategoryLabel;
     private int _categoryIndex = 0;
     private ArrayList<CategoryInfoStruct> _allCategories;
     final String SUMMARY = "Summary";
@@ -75,14 +76,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createCategoryHeader(){
-        _selectedCategoryLabel = findViewById(R.id.selectedCategoryLabel);
+        _selectedCategoryLabel = findViewById(R.id.selectedCategoryHeader);
         _allCategories = new CategoryAdmin(this).getAllCategories();
         if(!_allCategories.isEmpty()){
             _allCategories.add(0, new CategoryInfoStruct(null, getResources().getString(R.string.Summary), null, null, null));
             _selectedCategoryLabel.setText(getResources().getString(R.string.Summary));
         }
-        ImageButton addNewCategory = findViewById(R.id.addNewCategory);
-        addNewCategory.setOnClickListener(view -> {
+
+        _selectedCategoryLabel.setOnClickListener(view -> {
             Intent openAddNewCategory = new Intent(MainActivity.this, AddCategory.class);
             startActivity(openAddNewCategory);
         });

@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
-import ca.michaelbalcerzak.budgettozero.CategoryInfoStruct;
 import ca.michaelbalcerzak.budgettozero.PurchaseInfoStruct;
 
 public class PurchaseAdmin extends MainDatabase{
@@ -46,7 +45,7 @@ public class PurchaseAdmin extends MainDatabase{
     }
 
     public ArrayList<PurchaseInfoStruct> get25MostRecentPurchasesForCategory(String category){
-        final String QUERY = "SELECT * FROM " + PURCHASE_TABLE + " WHERE " + CATEGORY_NAME + " = \'" + category +"\' ORDER BY " + ID + " DESC LIMIT 25";
+        final String QUERY = "SELECT * FROM " + PURCHASE_TABLE + " WHERE " + CATEGORY_NAME + " = '" + category + "' ORDER BY " + ID + " DESC LIMIT 25";
         return getPurchasesList(QUERY);
     }
 
@@ -56,7 +55,6 @@ public class PurchaseAdmin extends MainDatabase{
         ArrayList<PurchaseInfoStruct> purchaseList = new ArrayList<>();
         Cursor cursor = db.rawQuery(QUERY, null);
         cursor.moveToFirst();
-//(String purchasePK, String description, String spentAmount, String date, String categoryName){
         while (!cursor.isAfterLast()) {
             purchaseList.add(new PurchaseInfoStruct(cursor.getString(cursor.getColumnIndex(ID)),
                     cursor.getString(cursor.getColumnIndex(DESCRIPTION)),
