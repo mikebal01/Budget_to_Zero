@@ -1,12 +1,18 @@
 package ca.michaelbalcerzak.budgettozero;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -24,6 +30,7 @@ import ca.michaelbalcerzak.budgettozero.Database.PurchaseAdmin;
 import ca.michaelbalcerzak.budgettozero.databinding.ActivityMainBinding;
 import ca.michaelbalcerzak.budgettozero.ui.AddCategory;
 import ca.michaelbalcerzak.budgettozero.ui.AddPurchase;
+import ca.michaelbalcerzak.budgettozero.ui.EditCategory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -77,16 +84,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void createCategoryHeader(){
         _selectedCategoryLabel = findViewById(R.id.selectedCategoryHeader);
+        registerForContextMenu(_selectedCategoryLabel);
         _allCategories = new CategoryAdmin(this).getAllCategories();
         if(!_allCategories.isEmpty()){
             _allCategories.add(0, new CategoryInfoStruct(null, getResources().getString(R.string.Summary), null, null, null));
             _selectedCategoryLabel.setText(getResources().getString(R.string.Summary));
         }
 
-        _selectedCategoryLabel.setOnClickListener(view -> {
-            Intent openAddNewCategory = new Intent(MainActivity.this, AddCategory.class);
-            startActivity(openAddNewCategory);
-        });
         ImageButton _nextCategory = findViewById(R.id.nextCategory);
         _nextCategory.setOnClickListener(view -> {
             if(++_categoryIndex == _allCategories.size()){
@@ -146,5 +150,41 @@ public class MainActivity extends AppCompatActivity {
     private void updateDisplayForCategory(String category){
         updateBreakdown(category);
         updateRecentHistory(category);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        if (v.getId()==R.id.selectedCategoryHeader) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_list, menu);
+        }
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.add:
+                Intent openAddNewCategory = new Intent(MainActivity.this, AddCategory.class);
+                startActivity(openAddNewCategory);
+                return true;
+            case R.id.edit:
+                if( _allCategories.get(_categoryIndex).getCategoryPk() == null){
+                    Toast.makeText(this, R.string.edit_summary_error,
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Intent openEditNewCategory = new Intent(MainActivity.this, EditCategory.class);
+                    openEditNewCategory.putExtra("categoryPk", _allCategories.get(_categoryIndex).getCategoryPk());
+                    startActivity(openEditNewCategory);
+                }
+                return true;
+            case R.id.delete:
+                // remove stuff here
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 }

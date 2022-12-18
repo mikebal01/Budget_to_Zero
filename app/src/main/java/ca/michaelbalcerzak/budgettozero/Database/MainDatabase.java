@@ -29,8 +29,8 @@ public class MainDatabase extends SQLiteOpenHelper {
         db.execSQL(createResetFrequencyTable);
         db.execSQL("INSERT INTO reset_frequency VALUES ('NEVER');");
         db.execSQL("INSERT INTO reset_frequency VALUES ('MONTHLY');");
-        db.execSQL("INSERT INTO reset_frequency VALUES ('BI_MONTHLY');");
-        db.execSQL("INSERT INTO reset_frequency VALUES ('BI_WEEKLY');");
+        db.execSQL("INSERT INTO reset_frequency VALUES ('BIMONTHLY');");
+        db.execSQL("INSERT INTO reset_frequency VALUES ('BIWEEKLY');");
         db.execSQL("INSERT INTO reset_frequency VALUES ('WEEKLY');");
         db.execSQL("INSERT INTO reset_frequency VALUES ('DAILY');");
         db.execSQL("INSERT INTO reset_frequency VALUES ('CUSTOM');");

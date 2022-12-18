@@ -30,7 +30,7 @@ public class AddCategory extends Activity {
         super.onResume();
     }
 
-    private void setupVariables(){
+    void setupVariables(){
 
         _resetFrequency = findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -43,7 +43,7 @@ public class AddCategory extends Activity {
         _budgetAmount = findViewById(R.id.editTextTotalSpent);
     }
 
-    private CategoryInfoStruct createBudgetCategoryFromUserInput(){
+    CategoryInfoStruct createBudgetCategoryFromUserInput(){
         return new CategoryInfoStruct(null,
                 _categoryName.getText().toString(),
                 _budgetAmount.getText().toString(),

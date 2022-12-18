@@ -15,6 +15,7 @@
     <string name="main_navigation_category_next">View Next Budget Category</string>
     <string name="category_name">Category name:</string>
     <string name="add_new_category">Add New Category</string>
+    <string name="update_category">Update Category</string>
     <string name="text_input_for_category_name">Category name</string>
     <string name="text_input_for_budget_amount">Budget amount</string>
     <string name="budget_amount">Budget Amount:</string>
@@ -23,7 +24,7 @@
     <string name="add_purchase">Add Purchase</string>
     <string name="button_create_budget_based_on_input">Create budget based on input</string>
     <string name="select_wheel_how_often_to_reset_budget">Select wheel how often to reset budget</string>
-    <string name="click_here_add_budget">Click here to add a category</string>
+    <string name="click_here_add_budget">Long Click to add a category</string>
     <string name="Summary">Summary</string>
 
     <string name="remaining_budget">Remaining Budget Balance:</string>
@@ -34,6 +35,10 @@
     <string name="remaining">Remaining</string>
     <string name="starting_amount">Starting Amount</string>
 
+    <string name="menu_add">Add New Category</string>
+    <string name="menu_edit">Edit Category</string>
+    <string name="menu_reset">Reset Purchases</string>
+    <string name="edit_summary_error">Cannot Edit Summary</string>
     <string-array name="budget_frequency_array">
             <item>Never</item>
             <item>Monthly</item>

@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.AddCategory"/>
+        <activity android:name=".ui.EditCategory"/>
         <activity android:name=".ui.AddPurchase"/>
     </application>
 

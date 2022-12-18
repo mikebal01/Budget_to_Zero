@@ -30,6 +30,13 @@ public class CategoryAdmin extends MainDatabase{
         db.close();
     }
 
+    public void updateCategory(CategoryInfoStruct category, String categoryPK){
+        ContentValues values = createContentValuesForCategory(category);
+        SQLiteDatabase db = getWritableDatabase();
+        db.update(CATEGORY_TABLE, values, CATEGORY_ID + " = ?", new String[] {categoryPK});
+        db.close();
+    }
+
     private ContentValues createContentValuesForCategory(CategoryInfoStruct category){
         ContentValues values = new ContentValues();
         values.put(NAME, category.getName());
@@ -82,7 +89,7 @@ public class CategoryAdmin extends MainDatabase{
     }
     @SuppressLint("Range")
     public CategoryInfoStruct getCategoryByName(String categoryName) {
-        final String query = "SELECT * FROM " + CATEGORY_TABLE + " WHERE " + NAME + " = \'" + categoryName + "'";
+        final String query = "SELECT * FROM " + CATEGORY_TABLE + " WHERE " + NAME + " = '" + categoryName + "'";
         SQLiteDatabase db = getReadableDatabase();
         CategoryInfoStruct category = null;
         Cursor cursor = db.rawQuery(query, null);
@@ -106,7 +113,7 @@ public class CategoryAdmin extends MainDatabase{
         values.put(REMAINING_BUDGET_AMOUNT, newRemainingBalance);
 
         SQLiteDatabase db = getWritableDatabase();
-        db.update(CATEGORY_TABLE, values, NAME + " = '" + categoryName + "\'", null);
+        db.update(CATEGORY_TABLE, values, NAME + " = '" + categoryName + "'", null);
         db.close();
     }
 
