@@ -49,10 +49,16 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(view -> {
-            Intent openAddNewPurchase = new Intent(MainActivity.this, AddPurchase.class);
-            openAddNewPurchase.putExtra("categoryPk", _allCategories.get(_categoryIndex).getCategoryPk());
-            startActivity(openAddNewPurchase);
-                });
+            if( _allCategories.size() == 0){
+                Toast.makeText(this, R.string.purchase_no_category,
+                        Toast.LENGTH_LONG).show();
+            } else {
+                Intent openAddNewPurchase = new Intent(MainActivity.this, AddPurchase.class);
+                openAddNewPurchase.putExtra("categoryPk", _allCategories.get(_categoryIndex).getCategoryPk());
+                startActivity(openAddNewPurchase);
+            }
+        });
+
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
@@ -93,20 +99,25 @@ public class MainActivity extends AppCompatActivity {
 
         ImageButton _nextCategory = findViewById(R.id.nextCategory);
         _nextCategory.setOnClickListener(view -> {
-            if(++_categoryIndex == _allCategories.size()){
+            if(++_categoryIndex >= _allCategories.size()){
                 _categoryIndex = 0;
             }
-            _selectedCategoryLabel.setText(_allCategories.get(_categoryIndex).getName());
-            updateDisplayForCategory(_allCategories.get(_categoryIndex).getName());
+            updateHeaderOnArrowClick();
         });
         ImageButton _previousCategory = findViewById(R.id.previousCategory);
         _previousCategory.setOnClickListener(view -> {
             if(--_categoryIndex < 0){
                 _categoryIndex = _allCategories.size() - 1;
             }
+            updateHeaderOnArrowClick();
+        });
+    }
+
+    private void updateHeaderOnArrowClick(){
+        if(!_allCategories.isEmpty()) {
             _selectedCategoryLabel.setText(_allCategories.get(_categoryIndex).getName());
             updateDisplayForCategory(_allCategories.get(_categoryIndex).getName());
-        });
+        }
     }
 
     private void updateBreakdown(String categoryName){
@@ -171,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(openAddNewCategory);
                 return true;
             case R.id.edit:
-                if( _allCategories.get(_categoryIndex).getCategoryPk() == null){
+                if(_allCategories.size() == 0 || _allCategories.get(_categoryIndex).getCategoryPk() == null){
                     Toast.makeText(this, R.string.edit_summary_error,
                             Toast.LENGTH_LONG).show();
                 } else {
