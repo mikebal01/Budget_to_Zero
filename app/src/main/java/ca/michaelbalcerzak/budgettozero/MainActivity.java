@@ -1,6 +1,7 @@
 package ca.michaelbalcerzak.budgettozero;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,10 +29,12 @@ import java.util.ArrayList;
 
 import ca.michaelbalcerzak.budgettozero.Database.CategoryAdmin;
 import ca.michaelbalcerzak.budgettozero.Database.PurchaseAdmin;
+import ca.michaelbalcerzak.budgettozero.Database.SettingsAdmin;
 import ca.michaelbalcerzak.budgettozero.databinding.ActivityMainBinding;
 import ca.michaelbalcerzak.budgettozero.ui.AddCategory;
 import ca.michaelbalcerzak.budgettozero.ui.AddPurchase;
 import ca.michaelbalcerzak.budgettozero.ui.EditCategory;
+import ca.michaelbalcerzak.budgettozero.ui.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -80,6 +84,20 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent openSettings = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(openSettings);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -191,11 +209,41 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(openEditNewCategory);
                 }
                 return true;
-            case R.id.delete:
-                // remove stuff here
+            case R.id.reset:
+                showResetConfirm();
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    private void showResetConfirm(){
+
+        SettingsAdmin settingsAdmin = new SettingsAdmin(this);
+        boolean clearHistoryOnReset = settingsAdmin.clearHistoryOnReset();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(getString(R.string.reset_confirm_title) + " " + _allCategories.get(_categoryIndex).getName());
+        if(clearHistoryOnReset) {
+            builder.setMessage(R.string.reset_confirm_clear_history);
+        } else{
+            builder.setMessage(R.string.reset_confirm_spend_only);
+        }
+        builder.setPositiveButton(R.string.reset_confirm_confirm,
+                (dialog, which) -> {
+                  if(clearHistoryOnReset){
+                      PurchaseAdmin purchaseAdmin = new PurchaseAdmin(getApplicationContext());
+                      purchaseAdmin.deleteAllPurchasesForCategory(_allCategories.get(_categoryIndex).getName());
+                  }
+                  CategoryAdmin categoryAdmin = new CategoryAdmin(getApplicationContext());
+                  categoryAdmin.resetRemainingBudgetForCategory(_allCategories.get(_categoryIndex).getCategoryPk());
+                  updateDisplayForCategory(_allCategories.get(_categoryIndex).getName());
+                });
+        builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

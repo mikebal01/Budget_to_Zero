@@ -5,7 +5,7 @@ public class CategoryInfoStruct {
     private final String _categoryPk;
     private final String _name;
     private final String _budgetAmount;
-    private final String _remainingBudget;
+    private String _remainingBudget;
     private final String _resetInterval;
 
     public CategoryInfoStruct(String categoryPk, String name, String budgetAmount, String resetInterval, String remainingBudget){
@@ -34,5 +34,9 @@ public class CategoryInfoStruct {
 
     public String getResetInterval() {
         return _resetInterval;
+    }
+
+    public void resetRemainingBudget(){
+        _remainingBudget = _budgetAmount;
     }
 }

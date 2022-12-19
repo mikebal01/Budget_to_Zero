@@ -40,6 +40,16 @@
     <string name="menu_reset">Reset Purchases</string>
     <string name="edit_summary_error">Cannot Edit Summary</string>
     <string name="purchase_no_category">Please add a category first</string>
+
+    <string name="reset_confirm_title">Reset Category:</string>
+    <string name="reset_confirm_clear_history">Are you sure you would like to clear your purchases and reset the balance for the period? </string>
+    <string name="reset_confirm_spend_only">Are you sure you would like to reset the balance for the period? </string>
+    <string name="reset_confirm_confirm">Confirm</string>
+
+    <string name="settings_header">Manage Settings:</string>
+    <string name="Save">Save</string>
+    <string name="clear_history_on_reset">Delete purchase history when category resets </string>
+
     <string-array name="budget_frequency_array">
             <item>Never</item>
             <item>Monthly</item>

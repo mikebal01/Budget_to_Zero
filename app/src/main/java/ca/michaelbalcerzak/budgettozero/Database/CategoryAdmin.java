@@ -37,6 +37,12 @@ public class CategoryAdmin extends MainDatabase{
         db.close();
     }
 
+    public void resetRemainingBudgetForCategory(String categoryPK){
+        CategoryInfoStruct categoryByPk = getCategoryByPk(categoryPK);
+        categoryByPk.resetRemainingBudget();
+        updateCategory(categoryByPk, categoryPK);
+    }
+
     private ContentValues createContentValuesForCategory(CategoryInfoStruct category){
         ContentValues values = new ContentValues();
         values.put(NAME, category.getName());

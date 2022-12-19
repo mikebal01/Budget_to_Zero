@@ -67,4 +67,10 @@ public class PurchaseAdmin extends MainDatabase{
         db.close();
         return purchaseList;
     }
+
+    public void deleteAllPurchasesForCategory(String toDelete){
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(PURCHASE_TABLE, CATEGORY_NAME + " =?", new String[] {toDelete});
+        db.close();
+    }
 }
