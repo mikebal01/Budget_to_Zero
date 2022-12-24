@@ -1,7 +1,6 @@
 package ca.michaelbalcerzak.budgettozero.Database;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -42,6 +41,10 @@ public class MainDatabase extends SQLiteOpenHelper {
         final String createPurchaseTable = "CREATE TABLE purchase (purchase_id INTEGER PRIMARY KEY AUTOINCREMENT, category_name TEXT, description TEXT, cost REAL," +
                 " date text, FOREIGN KEY (category_name) REFERENCES category (name));";
         db.execSQL(createPurchaseTable);
+
+        final String createSettingsTable = "CREATE TABLE settings (name TEXT UNIQUE, is_enabled INTEGER DEFAULT 0)";
+        db.execSQL(createSettingsTable);
+        db.execSQL("INSERT INTO settings VALUES ('CLEAR_HISTORY_ON_RESET', 0);");
     }
 
     @Override
@@ -51,23 +54,4 @@ public class MainDatabase extends SQLiteOpenHelper {
         }
 
     }
-
-    double executeStatisticalQueryDouble(final String query){
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        cursor.moveToFirst();
-        double count = cursor.getDouble(0);
-        cursor.close();
-        return count;
-    }
-
-    int executeStatisticalQueryInt(final String query){
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        return count;
-    }
-
 }
