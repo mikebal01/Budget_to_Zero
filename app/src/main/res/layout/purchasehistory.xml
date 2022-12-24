@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:layout_weight="3">
+    >
     <TextView
         android:id="@+id/purchaseDate"
         android:layout_width="wrap_content"
@@ -11,21 +11,20 @@
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:padding="2dp"
-        android:layout_weight="1"/>
+        android:width="100dp"/>
     <TextView
         android:id="@+id/purchaseDescription"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="1"/>
+        android:textAlignment="center"
+        android:width="200dp"
+        />
+
     <TextView
         android:id="@+id/purchaseCost"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="$500.00"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="1"/>
+        android:width="100dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 </LinearLayout>
