@@ -40,7 +40,7 @@
     <string name="menu_reset">Reset Purchases</string>
     <string name="edit_summary_error">Cannot Edit Summary</string>
     <string name="purchase_no_category">Please add a category first</string>
-
+    <string name="purchase_no_spend_amount">Please add a spent amount to deduct from your budget</string>
     <string name="reset_confirm_title">Reset Category:</string>
     <string name="reset_confirm_clear_history">Are you sure you would like to clear your purchases and reset the balance for the period? </string>
     <string name="reset_confirm_spend_only">Are you sure you would like to reset the balance for the period? </string>

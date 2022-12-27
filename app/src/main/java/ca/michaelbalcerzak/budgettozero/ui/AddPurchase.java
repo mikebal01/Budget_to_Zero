@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -83,14 +84,20 @@ public class AddPurchase extends Activity {
     }
 
     public void addPurchaseClicked(View view) {
-        PurchaseInfoStruct purchase = new PurchaseInfoStruct(null, _description.getText().toString(), _totalSpent.getText().toString(), DateHelper.formatDateFromPicker(_purchaseDatePicker), _spinner.getSelectedItem().toString());
-        PurchaseAdmin purchaseAdmin = new PurchaseAdmin(this);
-        purchaseAdmin.addPurchase(purchase);
+        if (_totalSpent.getText().toString().isEmpty()) {
+            Toast.makeText(this, R.string.purchase_no_spend_amount,
+                    Toast.LENGTH_LONG).show();
+        } else {
 
-        CategoryAdmin categoryAdmin = new CategoryAdmin(this);
-        double startingBalance = Double.parseDouble(_remainingBudget.getText().toString());
-        double debit = Double.parseDouble(purchase.getSpendAmount());
-        categoryAdmin.debitCategoryForPurchase(purchase.getCategoryName(), String.valueOf(startingBalance-debit));
-        finish();
+            PurchaseInfoStruct purchase = new PurchaseInfoStruct(null, _description.getText().toString(), _totalSpent.getText().toString(), DateHelper.formatDateFromPicker(_purchaseDatePicker), _spinner.getSelectedItem().toString());
+            PurchaseAdmin purchaseAdmin = new PurchaseAdmin(this);
+            purchaseAdmin.addPurchase(purchase);
+
+            CategoryAdmin categoryAdmin = new CategoryAdmin(this);
+            double startingBalance = Double.parseDouble(_remainingBudget.getText().toString());
+            double debit = Double.parseDouble(purchase.getSpendAmount());
+            categoryAdmin.debitCategoryForPurchase(purchase.getCategoryName(), String.valueOf(startingBalance - debit));
+            finish();
+        }
     }
 }
