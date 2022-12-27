@@ -50,6 +50,14 @@
     <string name="Save">Save</string>
     <string name="clear_history_on_reset">Delete purchase history when category resets </string>
 
+    <string name="first_day_of_week">S</string>
+    <string name="second_day_of_week">M</string>
+    <string name="third_day_of_week">T</string>
+    <string name="fourth_day_of_week">W</string>
+    <string name="fifth_day_of_week">T</string>
+    <string name="sixth_day_of_week">F</string>
+    <string name="seventh_day_of_week">S</string>
+
     <string-array name="budget_frequency_array">
             <item>Never</item>
             <item>Monthly</item>
