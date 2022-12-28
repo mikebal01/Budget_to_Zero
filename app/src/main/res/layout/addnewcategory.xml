@@ -97,85 +97,123 @@
 
     <LinearLayout
         android:id="@+id/dayOfWeekLayout"
-        android:layout_width="357dp"
-        android:layout_height="117dp"
+        android:layout_width="361dp"
+        android:layout_height="48dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/addNewCatagoryButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner"
-        android:visibility="gone">
-
+        app:layout_constraintVertical_bias="0.483">
+        <!--android:visibility="gone"-->
         <Button
             android:id="@+id/buttonSunday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:text="@string/first_day_of_week"
             android:background="#cfcfcf"
             android:onClick="dayOfWeekClicked"
-            android:layout_margin="2dp"/>
+            android:text="@string/first_day_of_week" />
 
         <Button
             android:id="@+id/buttonMonday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:text="@string/second_day_of_week"
             android:background="#cfcfcf"
             android:onClick="dayOfWeekClicked"
-            android:layout_margin="2dp"/>
+            android:text="@string/second_day_of_week" />
 
         <Button
             android:id="@+id/buttonTuseday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:text="@string/third_day_of_week"
             android:background="#cfcfcf"
             android:onClick="dayOfWeekClicked"
-            android:layout_margin="2dp"/>
+            android:text="@string/third_day_of_week" />
 
         <Button
             android:id="@+id/buttonWednesday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:text="@string/fourth_day_of_week"
             android:background="#cfcfcf"
             android:onClick="dayOfWeekClicked"
-            android:layout_margin="2dp"/>
+            android:text="@string/fourth_day_of_week" />
 
         <Button
             android:id="@+id/buttonThursday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:text="@string/fifth_day_of_week"
             android:background="#cfcfcf"
             android:onClick="dayOfWeekClicked"
-            android:layout_margin="2dp"/>
+            android:text="@string/fifth_day_of_week" />
 
         <Button
             android:id="@+id/buttonFriday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:text="@string/sixth_day_of_week"
             android:background="#cfcfcf"
             android:onClick="dayOfWeekClicked"
-            android:layout_margin="2dp"/>
+            android:text="@string/sixth_day_of_week" />
 
         <Button
             android:id="@+id/buttonSaturday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="2dp"
             android:layout_weight="1"
-            android:text="@string/seventh_day_of_week"
             android:background="#cfcfcf"
             android:onClick="dayOfWeekClicked"
-            android:layout_margin="2dp"/>
+            android:text="@string/seventh_day_of_week"
+            tools:ignore="UsingOnClickInXml" />
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_purchase_day_of_week_header"
+        app:layout_constraintBottom_toTopOf="@+id/dayOfWeekLayoutFooter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.352"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner"
+        app:layout_constraintVertical_bias="0.336" />
+
+    <LinearLayout
+        android:id="@+id/dayOfWeekLayoutFooter"
+        android:layout_width="361dp"
+        android:layout_height="48dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/addNewCatagoryButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner"
+        app:layout_constraintVertical_bias="1.0">
+
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_purchase_day_footer_head" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
