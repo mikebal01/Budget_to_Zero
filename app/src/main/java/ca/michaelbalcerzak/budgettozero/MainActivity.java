@@ -1,7 +1,6 @@
 package ca.michaelbalcerzak.budgettozero;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -15,15 +14,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.navigation.NavigationView;
-
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
@@ -38,11 +37,11 @@ import ca.michaelbalcerzak.budgettozero.ui.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    final String SUMMARY = "Summary";
     private AppBarConfiguration mAppBarConfiguration;
     private Button _selectedCategoryLabel;
     private int _categoryIndex = 0;
     private ArrayList<CategoryInfoStruct> _allCategories;
-    final String SUMMARY = "Summary";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(view -> {
-            if( _allCategories.size() == 0){
+            if (_allCategories.size() == 0) {
                 Toast.makeText(this, R.string.purchase_no_category,
                         Toast.LENGTH_LONG).show();
             } else {
@@ -106,48 +105,47 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    private void createCategoryHeader(){
+    private void createCategoryHeader() {
         _selectedCategoryLabel = findViewById(R.id.selectedCategoryHeader);
         registerForContextMenu(_selectedCategoryLabel);
         _allCategories = new CategoryAdmin(this).getAllCategories();
-        if(!_allCategories.isEmpty()){
+        if (!_allCategories.isEmpty()) {
             _allCategories.add(0, new CategoryInfoStruct(null, getResources().getString(R.string.Summary), null, null, null));
             _selectedCategoryLabel.setText(getResources().getString(R.string.Summary));
         }
 
         ImageButton _nextCategory = findViewById(R.id.nextCategory);
         _nextCategory.setOnClickListener(view -> {
-            if(++_categoryIndex >= _allCategories.size()){
+            if (++_categoryIndex >= _allCategories.size()) {
                 _categoryIndex = 0;
             }
             updateHeaderOnArrowClick();
         });
         ImageButton _previousCategory = findViewById(R.id.previousCategory);
         _previousCategory.setOnClickListener(view -> {
-            if(--_categoryIndex < 0){
+            if (--_categoryIndex < 0) {
                 _categoryIndex = _allCategories.size() - 1;
             }
             updateHeaderOnArrowClick();
         });
     }
 
-    private void updateHeaderOnArrowClick(){
-        if(!_allCategories.isEmpty()) {
+    private void updateHeaderOnArrowClick() {
+        if (!_allCategories.isEmpty()) {
             _selectedCategoryLabel.setText(_allCategories.get(_categoryIndex).getName());
             updateDisplayForCategory(_allCategories.get(_categoryIndex).getName());
         }
     }
 
-    private void updateBreakdown(String categoryName){
+    private void updateBreakdown(String categoryName) {
         TextView textviewStartingAmount = findViewById(R.id.textView_startingAmount);
         TextView textviewRemainingAmount = findViewById(R.id.textView_remainingAmmount);
 
         CategoryAdmin categoryAdmin = new CategoryAdmin(this);
-        if (categoryName.equals(SUMMARY)){
+        if (categoryName.equals(SUMMARY)) {
             textviewStartingAmount.setText(categoryAdmin.getSumOfTotalBudgets());
             textviewRemainingAmount.setText(categoryAdmin.getSumOfRemainingBudgetAmounts());
-        }
-        else {
+        } else {
             CategoryInfoStruct categoryByName = categoryAdmin.getCategoryByName(categoryName);
             if (categoryByName != null) {
                 textviewStartingAmount.setText(categoryByName.getBudgetAmount());
@@ -156,15 +154,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void updateRecentHistory(String category){
+    private void updateRecentHistory(String category) {
         PurchaseAdmin purchaseAdmin = new PurchaseAdmin(this);
         ArrayList<PurchaseInfoStruct> mostRecentPurchases;
-        if(category.equals(SUMMARY)) {
+        if (category.equals(SUMMARY)) {
             mostRecentPurchases = purchaseAdmin.get25MostRecentPurchases();
-        } else{
+        } else {
             mostRecentPurchases = purchaseAdmin.get25MostRecentPurchasesForCategory(category);
         }
-        PurchaseHistoryListView adapter=new PurchaseHistoryListView(this, mostRecentPurchases);
+        PurchaseHistoryListView adapter = new PurchaseHistoryListView(this, mostRecentPurchases);
         ListView historyList = findViewById(R.id.historyList);
         historyList.setAdapter(adapter);
     }
@@ -176,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         updateDisplayForCategory(SUMMARY);
     }
 
-    private void updateDisplayForCategory(String category){
+    private void updateDisplayForCategory(String category) {
         updateBreakdown(category);
         updateRecentHistory(category);
     }
@@ -185,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
 
-        if (v.getId()==R.id.selectedCategoryHeader) {
+        if (v.getId() == R.id.selectedCategoryHeader) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.menu_list, menu);
         }
@@ -194,13 +192,13 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.add:
                 Intent openAddNewCategory = new Intent(MainActivity.this, AddCategory.class);
                 startActivity(openAddNewCategory);
                 return true;
             case R.id.edit:
-                if(_allCategories.size() == 0 || _allCategories.get(_categoryIndex).getCategoryPk() == null){
+                if (_allCategories.size() == 0 || _allCategories.get(_categoryIndex).getCategoryPk() == null) {
                     Toast.makeText(this, R.string.edit_summary_error,
                             Toast.LENGTH_LONG).show();
                 } else {
@@ -217,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showResetConfirm(){
+    private void showResetConfirm() {
 
         SettingsAdmin settingsAdmin = new SettingsAdmin(this);
         boolean clearHistoryOnReset = settingsAdmin.clearHistoryOnReset();
@@ -225,20 +223,20 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(getString(R.string.reset_confirm_title) + " " + _allCategories.get(_categoryIndex).getName());
-        if(clearHistoryOnReset) {
+        if (clearHistoryOnReset) {
             builder.setMessage(R.string.reset_confirm_clear_history);
-        } else{
+        } else {
             builder.setMessage(R.string.reset_confirm_spend_only);
         }
         builder.setPositiveButton(R.string.reset_confirm_confirm,
                 (dialog, which) -> {
-                  if(clearHistoryOnReset){
-                      PurchaseAdmin purchaseAdmin = new PurchaseAdmin(getApplicationContext());
-                      purchaseAdmin.deleteAllPurchasesForCategory(_allCategories.get(_categoryIndex).getName());
-                  }
-                  CategoryAdmin categoryAdmin = new CategoryAdmin(getApplicationContext());
-                  categoryAdmin.resetRemainingBudgetForCategory(_allCategories.get(_categoryIndex).getCategoryPk());
-                  updateDisplayForCategory(_allCategories.get(_categoryIndex).getName());
+                    if (clearHistoryOnReset) {
+                        PurchaseAdmin purchaseAdmin = new PurchaseAdmin(getApplicationContext());
+                        purchaseAdmin.deleteAllPurchasesForCategory(_allCategories.get(_categoryIndex).getName());
+                    }
+                    CategoryAdmin categoryAdmin = new CategoryAdmin(getApplicationContext());
+                    categoryAdmin.resetRemainingBudgetForCategory(_allCategories.get(_categoryIndex).getCategoryPk());
+                    updateDisplayForCategory(_allCategories.get(_categoryIndex).getName());
                 });
         builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
         });

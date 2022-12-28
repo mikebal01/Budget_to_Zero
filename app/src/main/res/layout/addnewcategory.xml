@@ -97,7 +97,9 @@
 
     <LinearLayout
         android:id="@+id/dayOfWeekLayout"
-        android:layout_width="361dp"
+        android:layout_width="match_parent"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
         android:layout_height="48dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/addNewCatagoryButton"
@@ -181,27 +183,32 @@
 
     <TextView
         android:id="@+id/textView11"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="55dp"
+        android:gravity="center_horizontal"
         android:text="@string/add_purchase_day_of_week_header"
-        app:layout_constraintBottom_toTopOf="@+id/dayOfWeekLayoutFooter"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.352"
+        app:layout_constraintBottom_toBottomOf="@+id/dayOfWeekLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner"
-        app:layout_constraintVertical_bias="0.336" />
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintVertical_bias="1.0" />
 
     <LinearLayout
         android:id="@+id/dayOfWeekLayoutFooter"
-        android:layout_width="361dp"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/addNewCatagoryButton"
         app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintHorizontal_bias="0.32"
+        app:layout_constraintVertical_bias="0.943">
 
 
         <TextView
@@ -214,6 +221,6 @@
             android:id="@+id/textView13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"/>
+            android:layout_marginStart="4dp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package ca.michaelbalcerzak.budgettozero.ui;
 
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
@@ -14,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.datepicker.MaterialStyledDatePickerDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,6 +36,7 @@ public class AddCategory extends Activity {
     int _dayOfWeek = -1;
     ResetInterval _resetInterval;
     TextView _footerDate;
+    Calendar _calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +57,32 @@ public class AddCategory extends Activity {
         _budgetAmount = findViewById(R.id.editTextTotalSpent);
         _dayOfWeekLayout = findViewById(R.id.dayOfWeekLayout);
         _footerDate = findViewById(R.id.textView13);
-        _footerDate.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View v) {
-                //perform your action here
-            }
+        MaterialStyledDatePickerDialog.OnDateSetListener date = (view, year, month, day) -> {
+            _calendar.set(Calendar.YEAR, year);
+            _calendar.set(Calendar.MONTH, month);
+            _calendar.set(Calendar.DAY_OF_MONTH, day);
+            long difference = ((_calendar.getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) / (24 * 60 * 60 * 1000)) + 1;
+            updateResetDateFooter((int) difference);
+        };
+
+        _footerDate.setOnClickListener(v -> {
+            DatePickerDialog dialog = new DatePickerDialog(AddCategory.this, date, _calendar.get(Calendar.YEAR), _calendar.get(Calendar.MONTH), _calendar.get(Calendar.DAY_OF_MONTH));
+            Calendar current = Calendar.getInstance();
+            current.add(Calendar.DATE, 1);
+            dialog.getDatePicker().setMinDate(current.getTimeInMillis());
+            dialog.show();
         });
+    }
+
+    private void updateResetDateFooter(int numberOfDays) {
+        TextView footer = findViewById(R.id.textView12);
+        String displayFooter = getResources().getString(R.string.add_purchase_day_footer_head) + " <b>" + numberOfDays + " </b>" +
+                getResources().getString(R.string.add_purchase_day_footer_tail);
+        footer.setText(Html.fromHtml(displayFooter));
+
+        String buttonText = " <u> " + SimpleDateFormat.getDateInstance().format(_calendar.getTime());
+        _footerDate.setText(Html.fromHtml(buttonText));
     }
 
     private void setupSpinner() {
@@ -83,10 +107,12 @@ public class AddCategory extends Activity {
                     case 3: //Bi-Weekly
                         _resetInterval = ResetInterval.BI_WEEKLY;
                         _dayOfWeekLayout.setVisibility(View.VISIBLE);
+                        findViewById(R.id.textView11).setVisibility(View.VISIBLE);
                         break;
                     case 4: //weekly
                         _resetInterval = ResetInterval.WEEKLY;
                         _dayOfWeekLayout.setVisibility(View.VISIBLE);
+                        findViewById(R.id.textView11).setVisibility(View.VISIBLE);
                         break;
                     case 5: //Daily
                         break;
@@ -103,6 +129,7 @@ public class AddCategory extends Activity {
     }
 
     public void dayOfWeekClicked(View view) {
+        findViewById(R.id.dayOfWeekLayoutFooter).setVisibility(View.VISIBLE);
         ArrayList<Integer> allButtonsAsList = getAllButtonIdsAsList();
         _dayOfWeek = allButtonsAsList.indexOf(view.getId());
         allButtonsAsList.remove(_dayOfWeek);
@@ -111,15 +138,10 @@ public class AddCategory extends Activity {
         }
         findViewById(view.getId()).setBackgroundColor(R.style.Base_Widget_AppCompat_Button_Small);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, getDaysUntilReset(_dayOfWeek));
+        _calendar = Calendar.getInstance();
+        _calendar.add(Calendar.DATE, getDaysUntilReset(_dayOfWeek));
 
-        TextView footer = findViewById(R.id.textView12);
-        String displayFooter = getResources().getString(R.string.add_purchase_day_footer_head) + " <b>" + getDaysUntilReset(_dayOfWeek) + " </b>" +
-                getResources().getString(R.string.add_purchase_day_footer_tail);
-        String buttonText = " <u> " + SimpleDateFormat.getDateInstance().format(calendar.getTime());
-        _footerDate.setText(Html.fromHtml(buttonText));
-        footer.setText(Html.fromHtml(displayFooter));
+        updateResetDateFooter(getDaysUntilReset(_dayOfWeek));
     }
 
     private ArrayList<Integer> getAllButtonIdsAsList() {
