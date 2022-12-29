@@ -20,7 +20,8 @@
     <string name="add_purchase">Add Purchase</string>
     <string name="add_purchase_day_of_week_header">What day of the week should the budget reset?</string>
     <string name="add_purchase_day_footer_head">You\'re budget will reset in </string>
-    <string name="add_purchase_day_footer_tail">days on </string>
+    <string name="add_purchase_day_footer_tail_plural">days on </string>
+    <string name="add_purchase_day_footer_tail_singular">day on </string>
     <string name="button_create_budget_based_on_input">Create budget based on input</string>
     <string name="select_wheel_how_often_to_reset_budget">Select wheel how often to reset budget</string>
     <string name="click_here_add_budget">Long Click to add a category</string>
