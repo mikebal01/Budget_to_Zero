@@ -17,4 +17,15 @@ public class DateHelper {
     public static int numberOfDaysFromToday(Calendar targetDate) {
         return (int) ((targetDate.getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) / (24 * 60 * 60 * 1000)) + 1;
     }
+
+    public static Calendar getNextMonthWithSpecifiedDayOfMonth(int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, 1);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar;
+    }
 }

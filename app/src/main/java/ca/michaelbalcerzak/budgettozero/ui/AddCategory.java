@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.datepicker.MaterialStyledDatePickerDialog;
 
@@ -34,11 +33,13 @@ public class AddCategory extends Activity {
     EditText _budgetAmount;
     Spinner _resetFrequency;
     LinearLayout _dayOfWeekLayout;
-    int _dayOfWeek = -1;
     ResetInterval _resetInterval;
     TextView _footerDateWeek;
     TextView _footerDateMonth;
+    TextView _footerDateBiMonthly1;
+    TextView _footerDateBiMonthly2;
     Calendar _calendar;
+    Calendar _calendar2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,36 +61,44 @@ public class AddCategory extends Activity {
         _dayOfWeekLayout = findViewById(R.id.dayOfWeekLayout);
         _footerDateWeek = findViewById(R.id.textView13);
         _footerDateMonth = findViewById(R.id.textView15);
+        _footerDateBiMonthly1 = findViewById(R.id.textView17);
+        _footerDateBiMonthly2 = findViewById(R.id.textView20);
         MaterialStyledDatePickerDialog.OnDateSetListener date = (view, year, month, day) -> {
             _calendar.set(Calendar.YEAR, year);
             _calendar.set(Calendar.MONTH, month);
             _calendar.set(Calendar.DAY_OF_MONTH, day);
             if (_resetInterval.equals(ResetInterval.WEEKLY) || _resetInterval.equals(ResetInterval.BI_WEEKLY)) {
-                updateResetDateFooter(findViewById(R.id.textView12), findViewById(R.id.textView13));
-            } else if (_resetInterval.equals(ResetInterval.MONTHLY) || _resetInterval.equals(ResetInterval.BI_MONTHLY)) {
-                updateResetDateFooter(findViewById(R.id.textView14), findViewById(R.id.textView15));
+                updateResetDateFooter(_calendar, findViewById(R.id.textView12), findViewById(R.id.textView13));
+            } else if (_resetInterval.equals(ResetInterval.MONTHLY)) {
+                updateResetDateFooter(_calendar, findViewById(R.id.textView14), findViewById(R.id.textView15));
+            } else if (_resetInterval.equals(ResetInterval.BI_MONTHLY)) {
+                updateResetDateFooter(_calendar, findViewById(R.id.textView16), findViewById(R.id.textView17));
             }
         };
+        MaterialStyledDatePickerDialog.OnDateSetListener date2 = (view, year, month, day) -> {
+            _calendar2.set(Calendar.YEAR, year);
+            _calendar2.set(Calendar.MONTH, month);
+            _calendar2.set(Calendar.DAY_OF_MONTH, day);
+            updateResetDateFooter(_calendar2, findViewById(R.id.textView19), findViewById(R.id.textView20));
+        };
 
-        _footerDateWeek.setOnClickListener(v -> {
-            showDatePicker(date);
-        });
-        _footerDateMonth.setOnClickListener(v -> {
-            showDatePicker(date);
-        });
+        _footerDateWeek.setOnClickListener(v -> showDatePicker(date, _calendar));
+        _footerDateMonth.setOnClickListener(v -> showDatePicker(date, _calendar));
+        _footerDateBiMonthly1.setOnClickListener(v -> showDatePicker(date, _calendar));
+        _footerDateBiMonthly2.setOnClickListener(v -> showDatePicker(date2, _calendar2));
     }
 
-    private void showDatePicker(MaterialStyledDatePickerDialog.OnDateSetListener date) {
-        DatePickerDialog dialog = new DatePickerDialog(AddCategory.this, date, _calendar.get(Calendar.YEAR), _calendar.get(Calendar.MONTH), _calendar.get(Calendar.DAY_OF_MONTH));
+    private void showDatePicker(MaterialStyledDatePickerDialog.OnDateSetListener date, Calendar calendar) {
+        DatePickerDialog dialog = new DatePickerDialog(AddCategory.this, date, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         Calendar current = Calendar.getInstance();
         current.add(Calendar.DATE, 1);
         dialog.getDatePicker().setMinDate(current.getTimeInMillis());
         dialog.show();
     }
 
-    private void updateResetDateFooter(TextView headView, TextView tailView) {
+    private void updateResetDateFooter(Calendar calendar, TextView headView, TextView tailView) {
         String footer_tail_from_resource;
-        int numberOfDays = DateHelper.numberOfDaysFromToday(_calendar);
+        int numberOfDays = DateHelper.numberOfDaysFromToday(calendar);
         if (numberOfDays == 1) {
             footer_tail_from_resource = getResources().getString(R.string.add_purchase_day_footer_tail_singular);
         } else {
@@ -99,7 +108,7 @@ public class AddCategory extends Activity {
         headView.setText(Html.fromHtml(displayFooter));
         headView.setVisibility(View.VISIBLE);
 
-        String buttonText = " <u> " + SimpleDateFormat.getDateInstance().format(_calendar.getTime());
+        String buttonText = " <u> " + SimpleDateFormat.getDateInstance().format(calendar.getTime()) + " </u>";
         tailView.setText(Html.fromHtml(buttonText));
         tailView.setVisibility(View.VISIBLE);
     }
@@ -113,41 +122,35 @@ public class AddCategory extends Activity {
         _resetFrequency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                hideWeeklyResetResources();
+                hideResetDates();
                 findViewById(R.id.dayOfMonthLayoutFooter).setVisibility(View.GONE);
                 switch (i) {
-                    case 0: //NEVER Don't Need to do anything
-                        break;
                     case 1: //Monthly
                         _resetInterval = ResetInterval.MONTHLY;
                         findViewById(R.id.dayOfMonthLayoutFooter).setVisibility(View.VISIBLE);
-                        _calendar = Calendar.getInstance();
-                        _calendar.add(Calendar.MONTH, 1);
-                        _calendar.set(Calendar.DAY_OF_MONTH, 1);
-                        _calendar.set(Calendar.HOUR_OF_DAY, 0);
-                        _calendar.set(Calendar.MINUTE, 0);
-                        _calendar.set(Calendar.SECOND, 0);
-                        _calendar.set(Calendar.MILLISECOND, 0);
-                        updateResetDateFooter(findViewById(R.id.textView14), findViewById(R.id.textView15));
+                        _calendar = DateHelper.getNextMonthWithSpecifiedDayOfMonth(1);
+                        updateResetDateFooter(_calendar, findViewById(R.id.textView14), findViewById(R.id.textView15));
                         break;
                     case 2: //Bi-Monthly
-                        Toast.makeText(getApplicationContext(), "Spinner item 3!", Toast.LENGTH_SHORT).show();
+                        _resetInterval = ResetInterval.BI_MONTHLY;
+                        findViewById(R.id.dayOfMonthLayoutFooterBiMonthly).setVisibility(View.VISIBLE);
+                        _calendar = DateHelper.getNextMonthWithSpecifiedDayOfMonth(1);
+                        updateResetDateFooter(_calendar, findViewById(R.id.textView16), findViewById(R.id.textView17));
+                        _calendar2 = DateHelper.getNextMonthWithSpecifiedDayOfMonth(15);
+                        updateResetDateFooter(_calendar2, findViewById(R.id.textView19), findViewById(R.id.textView20));
                         break;
                     case 3: //Bi-Weekly
                         _resetInterval = ResetInterval.BI_WEEKLY;
                         _dayOfWeekLayout.setVisibility(View.VISIBLE);
                         findViewById(R.id.textView11).setVisibility(View.VISIBLE);
-                        findViewById(R.id.dayOfMonthLayoutFooter).setVisibility(View.GONE);
                         break;
                     case 4: //weekly
                         _resetInterval = ResetInterval.WEEKLY;
                         _dayOfWeekLayout.setVisibility(View.VISIBLE);
                         findViewById(R.id.textView11).setVisibility(View.VISIBLE);
-                        findViewById(R.id.dayOfMonthLayoutFooter).setVisibility(View.GONE);
                         break;
                     case 5: //Daily
-                        break;
-                    case 6: // Custom
+                        _resetInterval = ResetInterval.DAILY;
                         break;
                 }
             }
@@ -159,27 +162,30 @@ public class AddCategory extends Activity {
         });
     }
 
-    private void hideWeeklyResetResources() {
+    private void hideResetDates() {
         _dayOfWeekLayout.setVisibility(View.GONE);
         findViewById(R.id.textView11).setVisibility(View.GONE);
         findViewById(R.id.textView12).setVisibility(View.GONE);
         _footerDateWeek.setVisibility(View.GONE);
         ArrayList<Integer> list = getAllButtonIdsAsList();
         setBackgroundOfButtonsToDefault(list);
+        findViewById(R.id.dayOfMonthLayoutFooter).setVisibility(View.GONE);
+        findViewById(R.id.dayOfMonthLayoutFooterBiMonthly).setVisibility(View.GONE);
+
     }
 
     public void dayOfWeekClicked(View view) {
         findViewById(R.id.dayOfWeekLayoutFooter).setVisibility(View.VISIBLE);
         ArrayList<Integer> allButtonsAsList = getAllButtonIdsAsList();
-        _dayOfWeek = allButtonsAsList.indexOf(view.getId());
-        allButtonsAsList.remove(_dayOfWeek);
+        int dayOfWeek = allButtonsAsList.indexOf(view.getId());
+        allButtonsAsList.remove(dayOfWeek);
         setBackgroundOfButtonsToDefault(allButtonsAsList);
         findViewById(view.getId()).setBackgroundColor(R.style.Base_Widget_AppCompat_Button_Small);
 
         _calendar = Calendar.getInstance();
-        _calendar.add(Calendar.DATE, getDaysUntilReset(_dayOfWeek));
+        _calendar.add(Calendar.DATE, getDaysUntilReset(dayOfWeek));
 
-        updateResetDateFooter(findViewById(R.id.textView12), findViewById(R.id.textView13));
+        updateResetDateFooter(_calendar, findViewById(R.id.textView12), findViewById(R.id.textView13));
     }
 
     private ArrayList<Integer> getAllButtonIdsAsList() {

@@ -34,6 +34,7 @@
     <string name="purchase_date">Purchase Date:</string>
     <string name="remaining">Remaining</string>
     <string name="starting_amount">Starting Amount</string>
+    <string name="ampersand">&amp;</string>
 
     <string name="menu_add">Add New Category</string>
     <string name="menu_edit">Edit Category</string>
@@ -65,7 +66,6 @@
             <item>Biweekly</item>
             <item>Weekly</item>
             <item>Daily</item>
-            <item>Custom</item>
         </string-array>
 
 </resources>
