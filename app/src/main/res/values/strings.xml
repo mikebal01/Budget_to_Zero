@@ -40,6 +40,7 @@
     <string name="menu_edit">Edit Category</string>
     <string name="menu_reset">Reset Purchases</string>
     <string name="edit_summary_error">Cannot Edit Summary</string>
+    <string name="reset_summary_error">Cannot Reset Summary</string>
     <string name="purchase_no_category">Please add a category first</string>
     <string name="purchase_no_spend_amount">Please add a spent amount to deduct from your budget</string>
     <string name="reset_confirm_title">Reset Category:</string>

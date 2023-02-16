@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(openAddNewCategory);
                 return true;
             case R.id.edit:
-                if (_allCategories.size() == 0 || _allCategories.get(_categoryIndex).getCategoryPk() == null) {
+                if (isHeaderCategorySummary()) {
                     Toast.makeText(this, R.string.edit_summary_error,
                             Toast.LENGTH_LONG).show();
                 } else {
@@ -216,7 +216,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showResetConfirm() {
-
+        if (isHeaderCategorySummary()) {
+            Toast.makeText(this, R.string.reset_summary_error,
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
         SettingsAdmin settingsAdmin = new SettingsAdmin(this);
         boolean clearHistoryOnReset = settingsAdmin.clearHistoryOnReset();
 
@@ -243,5 +247,9 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private boolean isHeaderCategorySummary() {
+        return _allCategories.size() == 0 || _allCategories.get(_categoryIndex).getCategoryPk() == null;
     }
 }
