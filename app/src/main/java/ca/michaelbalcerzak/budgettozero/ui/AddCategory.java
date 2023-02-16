@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.datepicker.MaterialStyledDatePickerDialog;
 
@@ -226,14 +227,36 @@ public class AddCategory extends Activity {
     }
 
     public void createBudgetClicked(View view) {
-        CategoryAdmin categoryAdmin = new CategoryAdmin(this);
-        categoryAdmin.addCategory(createBudgetCategoryFromUserInput());
-        finish();
+        if (isValidUserInput()) {
+            CategoryAdmin categoryAdmin = new CategoryAdmin(this);
+            categoryAdmin.addCategory(createBudgetCategoryFromUserInput());
+            finish();
+        }
     }
 
     private void setBackgroundOfButtonsToDefault(ArrayList<Integer> allButtonsAsList) {
         for (Integer button : allButtonsAsList) {
             findViewById(button).setBackgroundColor(Color.parseColor("#cfcfcf"));
         }
+    }
+
+    boolean isValidUserInput() {
+        if (_categoryName.getText().toString().isEmpty()) {
+            Toast.makeText(this, R.string.add_category_title_error,
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (_budgetAmount.getText().toString().isEmpty()) {
+            Toast.makeText(this, R.string.add_category_amount_error,
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        CategoryAdmin categoryAdmin = new CategoryAdmin(this);
+        if (categoryAdmin.getCategoryByName(_categoryName.getText().toString()) != null) {
+            Toast.makeText(this, R.string.category_already_exists,
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }

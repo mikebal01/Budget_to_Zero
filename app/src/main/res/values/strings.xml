@@ -17,6 +17,9 @@
     <string name="budget_amount">Budget Amount:</string>
     <string name="reset_frequency">Reset Frequency:</string>
     <string name="start_budgeting">Start Budgeting</string>
+    <string name="add_category_title_error">Please add a category title</string>
+    <string name="add_category_amount_error">Please add a budget amount</string>
+    <string name="category_already_exists">A category with that name already existis</string>
     <string name="add_purchase">Add Purchase</string>
     <string name="add_purchase_day_of_week_header">What day of the week should the budget reset?</string>
     <string name="add_purchase_day_footer_head">You\'re budget will reset in </string>

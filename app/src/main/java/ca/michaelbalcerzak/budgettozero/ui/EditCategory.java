@@ -38,9 +38,11 @@ public class EditCategory extends AddCategory {
     }
 
     public void createBudgetClicked(View view) {
-        CategoryAdmin categoryAdmin = new CategoryAdmin(this);
-        categoryAdmin.updateCategory(createBudgetCategoryFromUserInput(), CATEGORY_PK);
-        finish();
+        if (isValidUserInput()) {
+            CategoryAdmin categoryAdmin = new CategoryAdmin(this);
+            categoryAdmin.updateCategory(createBudgetCategoryFromUserInput(), CATEGORY_PK);
+            finish();
+        }
     }
 
     private int getSpinnerSelection (String selectedResetFrequency){
