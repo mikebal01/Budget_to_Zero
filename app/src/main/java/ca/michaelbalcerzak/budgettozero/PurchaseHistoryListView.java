@@ -1,30 +1,27 @@
 package ca.michaelbalcerzak.budgettozero;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
 public class PurchaseHistoryListView extends BaseAdapter {
     private final Activity context;
     private final ArrayList<PurchaseInfoStruct> _purchases;
+    private final String _displayCurrency;
 
 
-    public PurchaseHistoryListView(Activity context, ArrayList<PurchaseInfoStruct> purchases) {
-       // super(context, R.layout.purchasehistory);
+    public PurchaseHistoryListView(Activity context, ArrayList<PurchaseInfoStruct> purchases, String displayCurrency) {
+        // super(context, R.layout.purchasehistory);
         // TODO Auto-generated constructor stub
 
-        this.context=context;
-        _purchases=purchases;
+        this.context = context;
+        _purchases = purchases;
+        _displayCurrency = displayCurrency;
     }
 
 
@@ -44,8 +41,8 @@ public class PurchaseHistoryListView extends BaseAdapter {
     }
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.purchasehistory, null,true);
+        LayoutInflater inflater = context.getLayoutInflater();
+        View rowView = inflater.inflate(R.layout.purchasehistory, null, true);
 
         TextView purchaseDate = rowView.findViewById(R.id.purchaseDate);
         TextView purchaseDescription = rowView.findViewById(R.id.purchaseDescription);
@@ -53,7 +50,8 @@ public class PurchaseHistoryListView extends BaseAdapter {
 
         purchaseDate.setText(_purchases.get(position).getSpendDate());
         purchaseDescription.setText(_purchases.get(position).getDescription());
-        purchaseCost.setText(_purchases.get(position).getSpendAmount());
+        String cost = _displayCurrency + _purchases.get(position).getSpendAmount();
+        purchaseCost.setText(cost);
 
         return rowView;
     }

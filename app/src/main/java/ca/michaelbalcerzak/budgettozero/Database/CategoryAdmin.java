@@ -139,6 +139,9 @@ public class CategoryAdmin extends MainDatabase{
         String remainingBudget = cursor.getString(0);
         cursor.close();
         db.close();
+        if (remainingBudget == null) {
+            return "0";
+        }
         return remainingBudget;
     }
 }

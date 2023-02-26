@@ -42,9 +42,10 @@ public class MainDatabase extends SQLiteOpenHelper {
                 " date text, FOREIGN KEY (category_name) REFERENCES category (name));";
         db.execSQL(createPurchaseTable);
 
-        final String createSettingsTable = "CREATE TABLE settings (name TEXT UNIQUE, is_enabled INTEGER DEFAULT 0)";
+        final String createSettingsTable = "CREATE TABLE settings (name TEXT UNIQUE, value TEXT, is_enabled INTEGER DEFAULT 0)";
         db.execSQL(createSettingsTable);
-        db.execSQL("INSERT INTO settings VALUES ('CLEAR_HISTORY_ON_RESET', 0);");
+        db.execSQL("INSERT INTO settings VALUES ('CLEAR_HISTORY_ON_RESET','', 0);");
+        db.execSQL("INSERT INTO settings VALUES ('DISPLAY_CURRENCY','$', 0);");
     }
 
     @Override

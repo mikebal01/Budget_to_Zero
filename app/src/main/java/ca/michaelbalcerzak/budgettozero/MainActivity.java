@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private Button _selectedCategoryLabel;
     private int _categoryIndex = 0;
     private ArrayList<CategoryInfoStruct> _allCategories;
+    private String _displayCurrency = "$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(openAddNewPurchase);
             }
         });
+
+        SettingsAdmin settingsAdmin = new SettingsAdmin(this);
+        _displayCurrency = settingsAdmin.getSettingValue(settingsAdmin.DISPLAY_CURRENCY);
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
@@ -87,14 +91,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                Intent openSettings = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(openSettings);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_settings) {
+            Intent openSettings = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(openSettings);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -140,18 +142,19 @@ public class MainActivity extends AppCompatActivity {
     private void updateBreakdown(String categoryName) {
         TextView textviewStartingAmount = findViewById(R.id.textView_startingAmount);
         TextView textviewRemainingAmount = findViewById(R.id.textView_remainingAmmount);
-
+        String budgetAmount = _displayCurrency;
+        String remainingBudgetAmounts = _displayCurrency;
         CategoryAdmin categoryAdmin = new CategoryAdmin(this);
         if (categoryName.equals(SUMMARY)) {
-            textviewStartingAmount.setText(categoryAdmin.getSumOfTotalBudgets());
-            textviewRemainingAmount.setText(categoryAdmin.getSumOfRemainingBudgetAmounts());
+            budgetAmount += categoryAdmin.getSumOfTotalBudgets();
+            remainingBudgetAmounts += categoryAdmin.getSumOfRemainingBudgetAmounts();
         } else {
             CategoryInfoStruct categoryByName = categoryAdmin.getCategoryByName(categoryName);
-            if (categoryByName != null) {
-                textviewStartingAmount.setText(categoryByName.getBudgetAmount());
-                textviewRemainingAmount.setText(categoryByName.getRemainingBudgetAmount());
-            }
+            budgetAmount += categoryByName.getBudgetAmount();
+            remainingBudgetAmounts += categoryByName.getRemainingBudgetAmount();
         }
+        textviewStartingAmount.setText(budgetAmount);
+        textviewRemainingAmount.setText(remainingBudgetAmounts);
     }
 
     private void updateRecentHistory(String category) {
@@ -162,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mostRecentPurchases = purchaseAdmin.get25MostRecentPurchasesForCategory(category);
         }
-        PurchaseHistoryListView adapter = new PurchaseHistoryListView(this, mostRecentPurchases);
+        PurchaseHistoryListView adapter = new PurchaseHistoryListView(this, mostRecentPurchases, _displayCurrency);
         ListView historyList = findViewById(R.id.historyList);
         historyList.setAdapter(adapter);
     }
@@ -175,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateDisplayForCategory(String category) {
+
         updateBreakdown(category);
         updateRecentHistory(category);
     }

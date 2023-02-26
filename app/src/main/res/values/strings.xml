@@ -54,7 +54,7 @@
     <string name="settings_header">Manage Settings:</string>
     <string name="Save">Save</string>
     <string name="clear_history_on_reset">Delete purchase history when category resets </string>
-
+    <string name="display_currency_symbol">Display Currency Symbol</string>
     <string name="first_day_of_week">S</string>
     <string name="second_day_of_week">M</string>
     <string name="third_day_of_week">T</string>
