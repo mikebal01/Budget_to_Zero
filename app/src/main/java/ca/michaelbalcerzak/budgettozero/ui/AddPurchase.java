@@ -46,8 +46,6 @@ public class AddPurchase extends Activity {
         _totalSpent = findViewById(R.id.editTextTotalSpent);
         _purchaseDatePicker = findViewById(R.id.datePicker1);
         setupCategorySpinner(startCategoryPk);
-
-
     }
 
     private void setupCategorySpinner(String startCategoryPk){
@@ -79,7 +77,6 @@ public class AddPurchase extends Activity {
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here
             }
-
         });
     }
 
@@ -88,7 +85,6 @@ public class AddPurchase extends Activity {
             Toast.makeText(this, R.string.purchase_no_spend_amount,
                     Toast.LENGTH_LONG).show();
         } else {
-
             PurchaseInfoStruct purchase = new PurchaseInfoStruct(null, _description.getText().toString(), _totalSpent.getText().toString(), DateHelper.formatDateFromPicker(_purchaseDatePicker), _spinner.getSelectedItem().toString());
             PurchaseAdmin purchaseAdmin = new PurchaseAdmin(this);
             purchaseAdmin.addPurchase(purchase);

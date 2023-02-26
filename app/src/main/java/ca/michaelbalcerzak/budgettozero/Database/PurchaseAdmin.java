@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import ca.michaelbalcerzak.budgettozero.PurchaseInfoStruct;
@@ -51,6 +52,7 @@ public class PurchaseAdmin extends MainDatabase{
 
     @SuppressLint("Range")
     private ArrayList<PurchaseInfoStruct> getPurchasesList(final String QUERY) {
+        DecimalFormat decimalFormatTwoDecimals = new DecimalFormat("########.00");
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<PurchaseInfoStruct> purchaseList = new ArrayList<>();
         Cursor cursor = db.rawQuery(QUERY, null);
@@ -58,7 +60,7 @@ public class PurchaseAdmin extends MainDatabase{
         while (!cursor.isAfterLast()) {
             purchaseList.add(new PurchaseInfoStruct(cursor.getString(cursor.getColumnIndex(ID)),
                     cursor.getString(cursor.getColumnIndex(DESCRIPTION)),
-                    cursor.getString(cursor.getColumnIndex(PURCHASE_COST)),
+                    decimalFormatTwoDecimals.format(cursor.getDouble(cursor.getColumnIndex(PURCHASE_COST))),
                     cursor.getString(cursor.getColumnIndex(DATE)),
                     cursor.getString(cursor.getColumnIndex(CATEGORY_NAME))));
             cursor.moveToNext();
