@@ -62,10 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(openAddNewPurchase);
             }
         });
-
-        SettingsAdmin settingsAdmin = new SettingsAdmin(this);
-        _displayCurrency = settingsAdmin.getSettingValue(settingsAdmin.DISPLAY_CURRENCY);
-
+        setCurrencySymbol();
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
@@ -173,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        setCurrencySymbol();
         createCategoryHeader();
         updateDisplayForCategory(SUMMARY);
     }
@@ -255,5 +253,10 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isHeaderCategorySummary() {
         return _allCategories.size() == 0 || _allCategories.get(_categoryIndex).getCategoryPk() == null;
+    }
+
+    private void setCurrencySymbol() {
+        SettingsAdmin settingsAdmin = new SettingsAdmin(this);
+        _displayCurrency = settingsAdmin.getSettingValue(settingsAdmin.DISPLAY_CURRENCY);
     }
 }

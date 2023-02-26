@@ -227,7 +227,7 @@ public class AddCategory extends Activity {
     }
 
     public void createBudgetClicked(View view) {
-        if (isValidUserInput()) {
+        if (isValidUserInput("")) {
             CategoryAdmin categoryAdmin = new CategoryAdmin(this);
             categoryAdmin.addCategory(createBudgetCategoryFromUserInput());
             finish();
@@ -240,7 +240,7 @@ public class AddCategory extends Activity {
         }
     }
 
-    boolean isValidUserInput() {
+    boolean isValidUserInput(String originalCategoryName) {
         if (_categoryName.getText().toString().isEmpty()) {
             Toast.makeText(this, R.string.add_category_title_error,
                     Toast.LENGTH_SHORT).show();
@@ -252,7 +252,7 @@ public class AddCategory extends Activity {
             return false;
         }
         CategoryAdmin categoryAdmin = new CategoryAdmin(this);
-        if (categoryAdmin.getCategoryByName(_categoryName.getText().toString()) != null) {
+        if (categoryAdmin.getCategoryByName(_categoryName.getText().toString()) != null && !originalCategoryName.equals(_categoryName.getText().toString())) {
             Toast.makeText(this, R.string.category_already_exists,
                     Toast.LENGTH_SHORT).show();
             return false;

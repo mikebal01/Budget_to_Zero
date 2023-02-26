@@ -19,7 +19,7 @@
     <string name="start_budgeting">Start Budgeting</string>
     <string name="add_category_title_error">Please add a category title</string>
     <string name="add_category_amount_error">Please add a budget amount</string>
-    <string name="category_already_exists">A category with that name already existis</string>
+    <string name="category_already_exists">A category with that name already exists</string>
     <string name="add_purchase">Add Purchase</string>
     <string name="add_purchase_day_of_week_header">What day of the week should the budget reset?</string>
     <string name="add_purchase_day_footer_head">You\'re budget will reset in </string>
@@ -29,6 +29,7 @@
     <string name="select_wheel_how_often_to_reset_budget">Select wheel how often to reset budget</string>
     <string name="click_here_add_budget">Long Click to add a category</string>
     <string name="Summary">Summary</string>
+    <string name="Purchase">Purchase</string>
 
     <string name="remaining_budget">Remaining Budget Balance:</string>
     <string name="description">Description:</string>

@@ -85,7 +85,13 @@ public class AddPurchase extends Activity {
             Toast.makeText(this, R.string.purchase_no_spend_amount,
                     Toast.LENGTH_LONG).show();
         } else {
-            PurchaseInfoStruct purchase = new PurchaseInfoStruct(null, _description.getText().toString(), _totalSpent.getText().toString(), DateHelper.formatDateFromPicker(_purchaseDatePicker), _spinner.getSelectedItem().toString());
+            String description;
+            if (_description.getText().toString().isEmpty()) {
+                description = getResources().getString(R.string.Purchase);
+            } else {
+                description = _description.getText().toString();
+            }
+            PurchaseInfoStruct purchase = new PurchaseInfoStruct(null, description, _totalSpent.getText().toString(), DateHelper.formatDateFromPicker(_purchaseDatePicker), _spinner.getSelectedItem().toString());
             PurchaseAdmin purchaseAdmin = new PurchaseAdmin(this);
             purchaseAdmin.addPurchase(purchase);
 

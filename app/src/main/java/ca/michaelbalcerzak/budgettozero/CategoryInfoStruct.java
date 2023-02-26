@@ -25,10 +25,7 @@ public class CategoryInfoStruct {
     }
 
     public String getBudgetAmount() {
-        if (_budgetAmount == null)
-            return "0";
-        else
-            return _budgetAmount;
+        return _budgetAmount;
     }
 
     public String getRemainingBudgetAmount() {
