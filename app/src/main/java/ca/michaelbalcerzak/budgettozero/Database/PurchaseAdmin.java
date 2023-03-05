@@ -14,7 +14,7 @@ import ca.michaelbalcerzak.budgettozero.PurchaseInfoStruct;
 public class PurchaseAdmin extends MainDatabase{
 
     private final String PURCHASE_TABLE = "purchase";
-    private final String CATEGORY_NAME = "category_name";
+    private final String CATEGORY_ID = "category_id";
     private final String DESCRIPTION = "description";
     private final String PURCHASE_COST = "cost";
     private final String DATE = "date";
@@ -33,7 +33,7 @@ public class PurchaseAdmin extends MainDatabase{
 
     private ContentValues createContentValuesForPurchase(PurchaseInfoStruct purchase){
         ContentValues values = new ContentValues();
-        values.put(CATEGORY_NAME, purchase.getCategoryName());
+        values.put(CATEGORY_ID, purchase.getCategoryPK());
         values.put(DESCRIPTION, purchase.getDescription());
         values.put(PURCHASE_COST, purchase.getSpendAmount());
         values.put(DATE, purchase.getSpendDate());
@@ -45,8 +45,8 @@ public class PurchaseAdmin extends MainDatabase{
         return getPurchasesList(QUERY);
     }
 
-    public ArrayList<PurchaseInfoStruct> get25MostRecentPurchasesForCategory(String category) {
-        final String QUERY = "SELECT * FROM " + PURCHASE_TABLE + " WHERE " + CATEGORY_NAME + " = '" + category + "' ORDER BY " + ID + " DESC LIMIT 25";
+    public ArrayList<PurchaseInfoStruct> get25MostRecentPurchasesForCategory(String categoryPK) {
+        final String QUERY = "SELECT * FROM " + PURCHASE_TABLE + " WHERE " + CATEGORY_ID + " = '" + categoryPK + "' ORDER BY " + ID + " DESC LIMIT 25";
         return getPurchasesList(QUERY);
     }
 
@@ -67,7 +67,7 @@ public class PurchaseAdmin extends MainDatabase{
                     cursor.getString(cursor.getColumnIndex(DESCRIPTION)),
                     decimalFormatTwoDecimals.format(cursor.getDouble(cursor.getColumnIndex(PURCHASE_COST))),
                     cursor.getString(cursor.getColumnIndex(DATE)),
-                    cursor.getString(cursor.getColumnIndex(CATEGORY_NAME))));
+                    cursor.getString(cursor.getColumnIndex(CATEGORY_ID))));
             cursor.moveToNext();
         }
         cursor.close();
@@ -77,7 +77,7 @@ public class PurchaseAdmin extends MainDatabase{
 
     public void deleteAllPurchasesForCategory(String toDelete) {
         SQLiteDatabase db = getWritableDatabase();
-        db.delete(PURCHASE_TABLE, CATEGORY_NAME + " =?", new String[]{toDelete});
+        db.delete(PURCHASE_TABLE, CATEGORY_ID + " =?", new String[]{toDelete});
         db.close();
     }
 

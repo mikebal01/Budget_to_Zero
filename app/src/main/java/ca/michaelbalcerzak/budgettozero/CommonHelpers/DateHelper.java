@@ -6,7 +6,7 @@ import java.util.Calendar;
 
 public class DateHelper {
 
-    //FORMAT: DD-MM-YYYY
+    //FORMAT: dd-MM-yyyy
     public static String formatDateFromPicker(DatePicker datePicker) {
         String day = String.valueOf(datePicker.getDayOfMonth());
         String month = String.valueOf(datePicker.getMonth() + 1);
@@ -27,5 +27,24 @@ public class DateHelper {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar;
+    }
+
+    public static int getDayFromStringDate(String date) {
+        String[] split = date.split("-");
+        return Integer.valueOf(split[0]);
+    }
+
+    public static int getMonthFromStringDate(String date) {
+        String[] split = date.split("-");
+        int month = Integer.valueOf(split[1]) - 1;
+        if (month < 0) {
+            month = 11;
+        }
+        return month;
+    }
+
+    public static int getYearFromStringDate(String date) {
+        String[] split = date.split("-");
+        return Integer.valueOf(split[2]);
     }
 }

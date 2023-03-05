@@ -113,13 +113,13 @@ public class CategoryAdmin extends MainDatabase{
         return category;
     }
 
-    public void adjustCategoryForPurchase(String categoryName, String newRemainingBalance) {
+    public void adjustCategoryForPurchase(String categoryPK, String newRemainingBalance) {
         ContentValues values = new ContentValues();
-        values.put(NAME, categoryName);
+        values.put(CATEGORY_ID, categoryPK);
         values.put(REMAINING_BUDGET_AMOUNT, newRemainingBalance);
 
         SQLiteDatabase db = getWritableDatabase();
-        db.update(CATEGORY_TABLE, values, NAME + " = '" + categoryName + "'", null);
+        db.update(CATEGORY_TABLE, values, CATEGORY_ID + " = '" + categoryPK + "'", null);
         db.close();
     }
 

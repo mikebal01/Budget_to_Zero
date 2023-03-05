@@ -6,14 +6,14 @@ public class PurchaseInfoStruct {
     private final String _description;
     private final String _spendAmount;
     private final String _spendDate;
-    private final String _categoryName;
+    private final String _categoryPK;
 
-    public PurchaseInfoStruct(String purchasePK, String description, String spentAmount, String date, String categoryName){
+    public PurchaseInfoStruct(String purchasePK, String description, String spentAmount, String date, String categoryPK) {
         _purchasePK = purchasePK;
         _description = description;
         _spendAmount = spentAmount;
         _spendDate = date;
-        _categoryName = categoryName;
+        _categoryPK = categoryPK;
     }
 
     public String getPurchasePK() {
@@ -32,7 +32,7 @@ public class PurchaseInfoStruct {
         return _spendDate;
     }
 
-    public String getCategoryName() {
-        return _categoryName;
+    public String getCategoryPK() {
+        return _categoryPK;
     }
 }

@@ -38,8 +38,8 @@ public class MainDatabase extends SQLiteOpenHelper {
                 " budget_remaining REAL, reset_frequency_name text, FOREIGN KEY (reset_frequency_name) REFERENCES reset_frequency (reset_frequency_name));";
         db.execSQL(createCategoryTable);
 
-        final String createPurchaseTable = "CREATE TABLE purchase (purchase_id INTEGER PRIMARY KEY AUTOINCREMENT, category_name TEXT, description TEXT, cost REAL," +
-                " date text, FOREIGN KEY (category_name) REFERENCES category (name));";
+        final String createPurchaseTable = "CREATE TABLE purchase (purchase_id INTEGER PRIMARY KEY AUTOINCREMENT, category_id TEXT, description TEXT, cost REAL," +
+                " date text, FOREIGN KEY (category_id) REFERENCES category (category_id));";
         db.execSQL(createPurchaseTable);
 
         final String createSettingsTable = "CREATE TABLE settings (name TEXT UNIQUE, value TEXT, is_enabled INTEGER DEFAULT 0)";

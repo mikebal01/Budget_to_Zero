@@ -23,6 +23,7 @@
         <activity android:name=".ui.EditCategory"/>
         <activity android:name=".ui.AddPurchase"/>
         <activity android:name=".ui.SettingsActivity"/>
+        <activity android:name=".ui.EditPurchase" />
     </application>
 
 </manifest>

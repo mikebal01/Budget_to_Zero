@@ -21,11 +21,11 @@ import ca.michaelbalcerzak.budgettozero.R;
 
 public class AddPurchase extends Activity {
 
-    private TextView _description;
-    private TextView _totalSpent;
-    private DatePicker _purchaseDatePicker;
-    private TextView _remainingBudget;
-    private Spinner _spinner;
+    public TextView _description;
+    public TextView _totalSpent;
+    public DatePicker _purchaseDatePicker;
+    public TextView _remainingBudget;
+    public Spinner _spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +35,13 @@ public class AddPurchase extends Activity {
         setContentView(ca.michaelbalcerzak.budgettozero.R.layout.add_purchase);
         setupVariables(startCategoryPk);
     }
+
     @Override
     public void onResume(){
         super.onResume();
     }
 
-    private void setupVariables(String startCategoryPk){
+    public void setupVariables(String startCategoryPk) {
         _remainingBudget = findViewById(R.id.textViewRemainingBudgetStart);
         _description = findViewById(R.id.editTextDescription);
         _totalSpent = findViewById(R.id.editTextTotalSpent);
@@ -91,14 +92,16 @@ public class AddPurchase extends Activity {
             } else {
                 description = _description.getText().toString();
             }
-            PurchaseInfoStruct purchase = new PurchaseInfoStruct(null, description, _totalSpent.getText().toString(), DateHelper.formatDateFromPicker(_purchaseDatePicker), _spinner.getSelectedItem().toString());
+            CategoryAdmin categoryAdmin = new CategoryAdmin(this);
+            CategoryInfoStruct category = categoryAdmin.getCategoryByName(_spinner.getSelectedItem().toString());
+
+            PurchaseInfoStruct purchase = new PurchaseInfoStruct(null, description, _totalSpent.getText().toString(), DateHelper.formatDateFromPicker(_purchaseDatePicker), category.getCategoryPk());
             PurchaseAdmin purchaseAdmin = new PurchaseAdmin(this);
             purchaseAdmin.addPurchase(purchase);
 
-            CategoryAdmin categoryAdmin = new CategoryAdmin(this);
             double startingBalance = Double.parseDouble(_remainingBudget.getText().toString());
             double debit = Double.parseDouble(purchase.getSpendAmount());
-            categoryAdmin.adjustCategoryForPurchase(purchase.getCategoryName(), String.valueOf(startingBalance - debit));
+            categoryAdmin.adjustCategoryForPurchase(purchase.getCategoryPK(), String.valueOf(startingBalance - debit));
             finish();
         }
     }

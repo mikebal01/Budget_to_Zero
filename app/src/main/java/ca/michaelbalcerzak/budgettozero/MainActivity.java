@@ -34,6 +34,7 @@ import ca.michaelbalcerzak.budgettozero.databinding.ActivityMainBinding;
 import ca.michaelbalcerzak.budgettozero.ui.AddCategory;
 import ca.michaelbalcerzak.budgettozero.ui.AddPurchase;
 import ca.michaelbalcerzak.budgettozero.ui.EditCategory;
+import ca.michaelbalcerzak.budgettozero.ui.EditPurchase;
 import ca.michaelbalcerzak.budgettozero.ui.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -162,7 +163,8 @@ public class MainActivity extends AppCompatActivity {
         if (category.equals(SUMMARY)) {
             mostRecentPurchases = purchaseAdmin.get25MostRecentPurchases();
         } else {
-            mostRecentPurchases = purchaseAdmin.get25MostRecentPurchasesForCategory(category);
+            CategoryAdmin categoryAdmin = new CategoryAdmin(this);
+            mostRecentPurchases = purchaseAdmin.get25MostRecentPurchasesForCategory(categoryAdmin.getCategoryByName(category).getCategoryPk());
         }
         PurchaseHistoryListView adapter = new PurchaseHistoryListView(this, mostRecentPurchases, _displayCurrency);
         ListView historyList = findViewById(R.id.historyList);
@@ -190,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         if (v.getId() == R.id.selectedCategoryHeader) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.menu_list, menu);
-        } else {// (v.getId() == R.id.selectedCategoryHeader) {
+        } else {
             ListView lv = (ListView) v;
             AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
             PurchaseInfoStruct selectedPurchase = (PurchaseInfoStruct) lv.getItemAtPosition(acmi.position);
@@ -222,9 +224,11 @@ public class MainActivity extends AppCompatActivity {
                 showResetConfirm();
                 return true;
             case R.id.editPurchase:
-/*
+                PurchaseAdmin purchaseAdmin = new PurchaseAdmin(this);
                 Intent openEditPurchase = new Intent(MainActivity.this, EditPurchase.class);
-                startActivity(openEditPurchase);*/
+                openEditPurchase.putExtra("purchasePK", _selectedPurchasePk);
+                openEditPurchase.putExtra("categoryPK", purchaseAdmin.getPurchaseByPK(_selectedPurchasePk).getCategoryPK());
+                startActivity(openEditPurchase);
                 return true;
             case R.id.deletePurchase:
                 showDeleteConfirm();
@@ -279,10 +283,10 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton(R.string.reset_confirm_confirm,
                 (dialog, which) -> {
                     CategoryAdmin categoryAdmin = new CategoryAdmin(this);
-                    CategoryInfoStruct category = categoryAdmin.getCategoryByName(purchaseInfo.getCategoryName());
+                    CategoryInfoStruct category = categoryAdmin.getCategoryByPk(purchaseInfo.getCategoryPK());
                     double budgetAmount = Double.parseDouble(category.getRemainingBudgetAmount());
                     budgetAmount += Double.parseDouble(purchaseInfo.getSpendAmount());
-                    categoryAdmin.adjustCategoryForPurchase(category.getName(), String.valueOf(budgetAmount));
+                    categoryAdmin.adjustCategoryForPurchase(category.getCategoryPk(), String.valueOf(budgetAmount));
                     purchaseAdmin.deletePurchase(purchaseInfo.getPurchasePK());
                     updateDisplayForCategory(_allCategories.get(_categoryIndex).getName());
                 });
