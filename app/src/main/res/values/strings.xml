@@ -40,6 +40,8 @@
     <string name="starting_amount">Starting Amount</string>
     <string name="ampersand">&amp;</string>
 
+    <string name="menu_edit_purchase">Edit Purchase</string>
+    <string name="menu_delete_purchase">Delete Purchase</string>
     <string name="menu_add">Add New Category</string>
     <string name="menu_edit">Edit Category</string>
     <string name="menu_reset">Reset Purchases</string>
@@ -50,6 +52,7 @@
     <string name="reset_confirm_title">Reset Category:</string>
     <string name="reset_confirm_clear_history">Are you sure you would like to clear your purchases and reset the balance for the period? </string>
     <string name="reset_confirm_spend_only">Are you sure you would like to reset the balance for the period? </string>
+    <string name="delete_confirm">Are you sure you would like to delete your purchase of </string>
     <string name="reset_confirm_confirm">Confirm</string>
 
     <string name="settings_header">Manage Settings:</string>

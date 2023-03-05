@@ -40,14 +40,19 @@ public class PurchaseAdmin extends MainDatabase{
         return values;
     }
 
-    public ArrayList<PurchaseInfoStruct> get25MostRecentPurchases(){
+    public ArrayList<PurchaseInfoStruct> get25MostRecentPurchases() {
         final String QUERY = "SELECT * FROM " + PURCHASE_TABLE + " ORDER BY " + ID + " DESC LIMIT 25";
         return getPurchasesList(QUERY);
     }
 
-    public ArrayList<PurchaseInfoStruct> get25MostRecentPurchasesForCategory(String category){
+    public ArrayList<PurchaseInfoStruct> get25MostRecentPurchasesForCategory(String category) {
         final String QUERY = "SELECT * FROM " + PURCHASE_TABLE + " WHERE " + CATEGORY_NAME + " = '" + category + "' ORDER BY " + ID + " DESC LIMIT 25";
         return getPurchasesList(QUERY);
+    }
+
+    public PurchaseInfoStruct getPurchaseByPK(String purchasePK) {
+        final String QUERY = "SELECT * FROM " + PURCHASE_TABLE + " WHERE " + ID + " = " + purchasePK;
+        return getPurchasesList(QUERY).get(0);
     }
 
     @SuppressLint("Range")
@@ -70,9 +75,15 @@ public class PurchaseAdmin extends MainDatabase{
         return purchaseList;
     }
 
-    public void deleteAllPurchasesForCategory(String toDelete){
+    public void deleteAllPurchasesForCategory(String toDelete) {
         SQLiteDatabase db = getWritableDatabase();
-        db.delete(PURCHASE_TABLE, CATEGORY_NAME + " =?", new String[] {toDelete});
+        db.delete(PURCHASE_TABLE, CATEGORY_NAME + " =?", new String[]{toDelete});
+        db.close();
+    }
+
+    public void deletePurchase(String purchasePK) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(PURCHASE_TABLE, ID + " =?", new String[]{purchasePK});
         db.close();
     }
 }

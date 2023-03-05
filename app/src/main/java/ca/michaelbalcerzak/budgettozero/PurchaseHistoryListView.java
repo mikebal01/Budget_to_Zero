@@ -39,6 +39,11 @@ public class PurchaseHistoryListView extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+
+    public PurchaseInfoStruct getPurchaseInfoAtPosition(int position) {
+        return _purchases.get(position);
+    }
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();

@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private int _categoryIndex = 0;
     private ArrayList<CategoryInfoStruct> _allCategories;
     private String _displayCurrency = "$";
+    private String _selectedPurchasePk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
         PurchaseHistoryListView adapter = new PurchaseHistoryListView(this, mostRecentPurchases, _displayCurrency);
         ListView historyList = findViewById(R.id.historyList);
         historyList.setAdapter(adapter);
+        registerForContextMenu(historyList);
     }
 
     @Override
@@ -176,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateDisplayForCategory(String category) {
-
         updateBreakdown(category);
         updateRecentHistory(category);
     }
@@ -188,6 +190,13 @@ public class MainActivity extends AppCompatActivity {
         if (v.getId() == R.id.selectedCategoryHeader) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.menu_list, menu);
+        } else {// (v.getId() == R.id.selectedCategoryHeader) {
+            ListView lv = (ListView) v;
+            AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            PurchaseInfoStruct selectedPurchase = (PurchaseInfoStruct) lv.getItemAtPosition(acmi.position);
+            _selectedPurchasePk = selectedPurchase.getPurchasePK();
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.purchase_list_menu, menu);
         }
     }
 
@@ -211,6 +220,14 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.reset:
                 showResetConfirm();
+                return true;
+            case R.id.editPurchase:
+/*
+                Intent openEditPurchase = new Intent(MainActivity.this, EditPurchase.class);
+                startActivity(openEditPurchase);*/
+                return true;
+            case R.id.deletePurchase:
+                showDeleteConfirm();
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -242,6 +259,31 @@ public class MainActivity extends AppCompatActivity {
                     }
                     CategoryAdmin categoryAdmin = new CategoryAdmin(getApplicationContext());
                     categoryAdmin.resetRemainingBudgetForCategory(_allCategories.get(_categoryIndex).getCategoryPk());
+                    updateDisplayForCategory(_allCategories.get(_categoryIndex).getName());
+                });
+        builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showDeleteConfirm() {
+        PurchaseAdmin purchaseAdmin = new PurchaseAdmin(this);
+        PurchaseInfoStruct purchaseInfo = purchaseAdmin.getPurchaseByPK(_selectedPurchasePk);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Delete Purchase");
+        builder.setMessage(getString(R.string.delete_confirm) + " " + purchaseInfo.getDescription() + " @ " + purchaseInfo.getSpendAmount());
+
+        builder.setPositiveButton(R.string.reset_confirm_confirm,
+                (dialog, which) -> {
+                    CategoryAdmin categoryAdmin = new CategoryAdmin(this);
+                    CategoryInfoStruct category = categoryAdmin.getCategoryByName(purchaseInfo.getCategoryName());
+                    double budgetAmount = Double.parseDouble(category.getRemainingBudgetAmount());
+                    budgetAmount += Double.parseDouble(purchaseInfo.getSpendAmount());
+                    categoryAdmin.adjustCategoryForPurchase(category.getName(), String.valueOf(budgetAmount));
+                    purchaseAdmin.deletePurchase(purchaseInfo.getPurchasePK());
                     updateDisplayForCategory(_allCategories.get(_categoryIndex).getName());
                 });
         builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {

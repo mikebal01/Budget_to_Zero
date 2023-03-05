@@ -113,7 +113,7 @@ public class CategoryAdmin extends MainDatabase{
         return category;
     }
 
-    public void debitCategoryForPurchase(String categoryName, String newRemainingBalance){
+    public void adjustCategoryForPurchase(String categoryName, String newRemainingBalance) {
         ContentValues values = new ContentValues();
         values.put(NAME, categoryName);
         values.put(REMAINING_BUDGET_AMOUNT, newRemainingBalance);
