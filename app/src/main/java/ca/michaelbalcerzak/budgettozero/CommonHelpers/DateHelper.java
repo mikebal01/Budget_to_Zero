@@ -31,12 +31,12 @@ public class DateHelper {
 
     public static int getDayFromStringDate(String date) {
         String[] split = date.split("-");
-        return Integer.valueOf(split[0]);
+        return Integer.parseInt(split[0]);
     }
 
     public static int getMonthFromStringDate(String date) {
         String[] split = date.split("-");
-        int month = Integer.valueOf(split[1]) - 1;
+        int month = Integer.parseInt(split[1]) - 1;
         if (month < 0) {
             month = 11;
         }
@@ -45,6 +45,6 @@ public class DateHelper {
 
     public static int getYearFromStringDate(String date) {
         String[] split = date.split("-");
-        return Integer.valueOf(split[2]);
+        return Integer.parseInt(split[2]);
     }
 }

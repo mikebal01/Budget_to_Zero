@@ -27,6 +27,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
+import ca.michaelbalcerzak.budgettozero.CommonHelpers.PurchaseHelper;
 import ca.michaelbalcerzak.budgettozero.Database.CategoryAdmin;
 import ca.michaelbalcerzak.budgettozero.Database.PurchaseAdmin;
 import ca.michaelbalcerzak.budgettozero.Database.SettingsAdmin;
@@ -282,12 +283,7 @@ public class MainActivity extends AppCompatActivity {
 
         builder.setPositiveButton(R.string.reset_confirm_confirm,
                 (dialog, which) -> {
-                    CategoryAdmin categoryAdmin = new CategoryAdmin(this);
-                    CategoryInfoStruct category = categoryAdmin.getCategoryByPk(purchaseInfo.getCategoryPK());
-                    double budgetAmount = Double.parseDouble(category.getRemainingBudgetAmount());
-                    budgetAmount += Double.parseDouble(purchaseInfo.getSpendAmount());
-                    categoryAdmin.adjustCategoryForPurchase(category.getCategoryPk(), String.valueOf(budgetAmount));
-                    purchaseAdmin.deletePurchase(purchaseInfo.getPurchasePK());
+                    PurchaseHelper.deletePurchaseAndRestoreCostToBudget(this, purchaseInfo);
                     updateDisplayForCategory(_allCategories.get(_categoryIndex).getName());
                 });
         builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
