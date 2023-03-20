@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         ca.michaelbalcerzak.budgettozero.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.appBarMain.toolbar);
+        //  setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(view -> {
             if (_allCategories.size() == 0) {
                 Toast.makeText(this, R.string.purchase_no_category,
@@ -134,10 +135,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateBreakdown(String categoryName) {
-        TextView textviewStartingAmount = findViewById(R.id.textView_startingAmount);
         TextView textviewRemainingAmount = findViewById(R.id.textView_remainingAmmount);
-        String budgetAmount = _displayCurrency;
-        String remainingBudgetAmounts = _displayCurrency;
+        ProgressBar progressBar = findViewById(R.id.progressBar2);
+        String budgetAmount = "";
+        String remainingBudgetAmounts = "";
         CategoryAdmin categoryAdmin = new CategoryAdmin(this);
         if (categoryName.equals(SUMMARY)) {
             budgetAmount += categoryAdmin.getSumOfTotalBudgets();
@@ -147,8 +148,9 @@ public class MainActivity extends AppCompatActivity {
             budgetAmount += categoryByName.getBudgetAmount();
             remainingBudgetAmounts += categoryByName.getRemainingBudgetAmount();
         }
-        textviewStartingAmount.setText(budgetAmount);
-        textviewRemainingAmount.setText(remainingBudgetAmounts);
+        progressBar.setProgress(PurchaseHelper.calculatePercentage(remainingBudgetAmounts, budgetAmount));
+        String headerBudgetAmount = _displayCurrency + remainingBudgetAmounts + "/" + _displayCurrency + budgetAmount;
+        textviewRemainingAmount.setText(headerBudgetAmount);
     }
 
     private void updateRecentHistory(String category) {

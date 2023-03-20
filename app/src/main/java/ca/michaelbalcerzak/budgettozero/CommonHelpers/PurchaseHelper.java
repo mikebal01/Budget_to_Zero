@@ -18,4 +18,18 @@ public class PurchaseHelper {
         categoryAdmin.adjustCategoryForPurchase(originalCategory.getCategoryPk(), String.valueOf(restoredBudget));
         purchaseAdmin.deletePurchase(purchase.getPurchasePK());
     }
+
+    public static int calculatePercentage(String remainingBudgetAmounts, String budgetAmount) {
+        try {
+            int remaining = Integer.parseInt(remainingBudgetAmounts);
+            int total = Integer.parseInt(budgetAmount);
+            int spent = total - remaining;
+            if (spent == 0) {
+                return 0;
+            }
+            return spent * 100 / total;
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
 }
