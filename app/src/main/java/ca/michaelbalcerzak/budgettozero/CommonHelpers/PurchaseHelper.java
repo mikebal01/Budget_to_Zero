@@ -21,13 +21,14 @@ public class PurchaseHelper {
 
     public static int calculatePercentage(String remainingBudgetAmounts, String budgetAmount) {
         try {
-            int remaining = Integer.parseInt(remainingBudgetAmounts);
-            int total = Integer.parseInt(budgetAmount);
-            int spent = total - remaining;
+            double remaining = Double.parseDouble(remainingBudgetAmounts);
+            double total = Double.parseDouble(budgetAmount);
+            double difference = Math.floor(total - remaining);
+            int spent = (int) difference;
             if (spent == 0) {
                 return 0;
             }
-            return spent * 100 / total;
+            return spent * 100 / (int) total;
         } catch (NumberFormatException e) {
             return 0;
         }

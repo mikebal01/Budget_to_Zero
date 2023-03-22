@@ -3,6 +3,7 @@ package ca.michaelbalcerzak.budgettozero;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -136,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateBreakdown(String categoryName) {
         TextView textviewRemainingAmount = findViewById(R.id.textView_remainingAmmount);
+        TextView percentageFooter = findViewById(R.id.textviewPercentageFooter);
         ProgressBar progressBar = findViewById(R.id.progressBar2);
         String budgetAmount = "";
         String remainingBudgetAmounts = "";
@@ -148,7 +150,10 @@ public class MainActivity extends AppCompatActivity {
             budgetAmount += categoryByName.getBudgetAmount();
             remainingBudgetAmounts += categoryByName.getRemainingBudgetAmount();
         }
-        progressBar.setProgress(PurchaseHelper.calculatePercentage(remainingBudgetAmounts, budgetAmount));
+        int completionPercentage = PurchaseHelper.calculatePercentage(remainingBudgetAmounts, budgetAmount);
+        String text = "You have spent <b>" + completionPercentage + "%</b> of your budget <br> your budget will reset in <b>10</b> days";
+        percentageFooter.setText(Html.fromHtml(text));
+        progressBar.setProgress(completionPercentage);
         String headerBudgetAmount = _displayCurrency + remainingBudgetAmounts + "/" + _displayCurrency + budgetAmount;
         textviewRemainingAmount.setText(headerBudgetAmount);
     }
