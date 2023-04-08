@@ -42,6 +42,10 @@ public class MainDatabase extends SQLiteOpenHelper {
                 " date text, FOREIGN KEY (category_id) REFERENCES category (category_id));";
         db.execSQL(createPurchaseTable);
 
+        final String createResetTable = "CREATE TABLE categoryReset (reset_id INTEGER PRIMARY KEY AUTOINCREMENT, category_id INTEGER, reset_frequency_name text, reset_date TEXT," +
+                " bi_monthly_alt_reset_date TEXT, is_last_day_of_month INTEGER, FOREIGN KEY (category_id) REFERENCES category (category_id));";
+        db.execSQL(createResetTable);
+
         final String createSettingsTable = "CREATE TABLE settings (name TEXT UNIQUE, value TEXT, is_enabled INTEGER DEFAULT 0)";
         db.execSQL(createSettingsTable);
         db.execSQL("INSERT INTO settings VALUES ('CLEAR_HISTORY_ON_RESET','', 0);");

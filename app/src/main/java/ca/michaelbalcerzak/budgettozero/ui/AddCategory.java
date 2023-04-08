@@ -25,7 +25,9 @@ import java.util.Calendar;
 import ca.michaelbalcerzak.budgettozero.CategoryInfoStruct;
 import ca.michaelbalcerzak.budgettozero.CommonHelpers.DateHelper;
 import ca.michaelbalcerzak.budgettozero.Database.CategoryAdmin;
+import ca.michaelbalcerzak.budgettozero.Database.CategoryResetAdmin;
 import ca.michaelbalcerzak.budgettozero.R;
+import ca.michaelbalcerzak.budgettozero.ResetFrequencyInfoStruct;
 import ca.michaelbalcerzak.budgettozero.ResetInterval;
 
 public class AddCategory extends Activity {
@@ -230,6 +232,11 @@ public class AddCategory extends Activity {
         if (isValidUserInput("")) {
             CategoryAdmin categoryAdmin = new CategoryAdmin(this);
             categoryAdmin.addCategory(createBudgetCategoryFromUserInput());
+            CategoryInfoStruct newCategory = categoryAdmin.getCategoryByName(createBudgetCategoryFromUserInput().getName());
+            CategoryResetAdmin categoryResetAdmin = new CategoryResetAdmin(this);
+            ResetFrequencyInfoStruct resetFrequency = new ResetFrequencyInfoStruct(-1, newCategory.getCategoryPk(), _resetInterval.toString(), DateHelper.formatDateFromCalender(_calendar),
+                    DateHelper.formatDateFromCalender(_calendar2), false);
+            categoryResetAdmin.addResetForCategory(resetFrequency);
             finish();
         }
     }

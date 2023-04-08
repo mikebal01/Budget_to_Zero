@@ -27,8 +27,10 @@ import androidx.navigation.ui.NavigationUI;
 
 import java.util.ArrayList;
 
+import ca.michaelbalcerzak.budgettozero.CommonHelpers.DateHelper;
 import ca.michaelbalcerzak.budgettozero.CommonHelpers.PurchaseHelper;
 import ca.michaelbalcerzak.budgettozero.Database.CategoryAdmin;
+import ca.michaelbalcerzak.budgettozero.Database.CategoryResetAdmin;
 import ca.michaelbalcerzak.budgettozero.Database.PurchaseAdmin;
 import ca.michaelbalcerzak.budgettozero.Database.SettingsAdmin;
 import ca.michaelbalcerzak.budgettozero.databinding.ActivityMainBinding;
@@ -141,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         ProgressBar progressBar = findViewById(R.id.progressBar2);
         String budgetAmount = "";
         String remainingBudgetAmounts = "";
+        int numberOfDaysUntilReset = -1;
         CategoryAdmin categoryAdmin = new CategoryAdmin(this);
         if (categoryName.equals(SUMMARY)) {
             budgetAmount += categoryAdmin.getSumOfTotalBudgets();
@@ -149,9 +152,19 @@ public class MainActivity extends AppCompatActivity {
             CategoryInfoStruct categoryByName = categoryAdmin.getCategoryByName(categoryName);
             budgetAmount += categoryByName.getBudgetAmount();
             remainingBudgetAmounts += categoryByName.getRemainingBudgetAmount();
+            CategoryResetAdmin categoryResetAdmin = new CategoryResetAdmin(this);
+            ResetFrequencyInfoStruct resetFrequency = categoryResetAdmin.getResetByCategoryPK(categoryByName.getCategoryPk());
+            if (resetFrequency != null) {
+                numberOfDaysUntilReset = DateHelper.getNumberOfDaysUntilReset(resetFrequency.getRESET_DATE());
+            }
         }
         int completionPercentage = PurchaseHelper.calculatePercentage(remainingBudgetAmounts, budgetAmount);
-        String text = "You have spent <b>" + completionPercentage + "%</b> of your budget <br> your budget will reset in <b>10</b> days";
+        String text;
+        if (numberOfDaysUntilReset != -1) {
+            text = "You have spent <b>" + completionPercentage + "%</b> of your budget <br> your budget will reset in <b>" + numberOfDaysUntilReset + "</b> days";
+        } else {
+            text = "You have spent <b>" + completionPercentage + "%</b> of your budget";
+        }
         percentageFooter.setText(Html.fromHtml(text));
         progressBar.setProgress(completionPercentage);
         String headerBudgetAmount = _displayCurrency + remainingBudgetAmounts + "/" + _displayCurrency + budgetAmount;

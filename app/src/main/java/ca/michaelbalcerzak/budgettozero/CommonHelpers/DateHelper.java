@@ -1,8 +1,11 @@
 package ca.michaelbalcerzak.budgettozero.CommonHelpers;
 
+import android.annotation.SuppressLint;
 import android.widget.DatePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class DateHelper {
 
@@ -12,6 +15,17 @@ public class DateHelper {
         String month = String.valueOf(datePicker.getMonth() + 1);
         String year = String.valueOf(datePicker.getYear());
         return day + "-" + month + "-" + year;
+    }
+
+    public static String formatDateFromCalender(Calendar calendar) {
+        if (calendar == null) {
+            return "";
+        } else {
+            String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+            String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
+            String year = String.valueOf(calendar.get(Calendar.YEAR));
+            return day + "-" + month + "-" + year;
+        }
     }
 
     public static int numberOfDaysFromToday(Calendar targetDate) {
@@ -46,5 +60,22 @@ public class DateHelper {
     public static int getYearFromStringDate(String date) {
         String[] split = date.split("-");
         return Integer.parseInt(split[2]);
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public static int getNumberOfDaysUntilReset(String resetDate) {
+        try {
+            SimpleDateFormat dates = new SimpleDateFormat("dd-MM-yyyy");
+            Calendar calendar = Calendar.getInstance();
+            Date today = dates.parse(formatDateFromCalender(calendar));
+            Date reset = dates.parse(resetDate);
+            assert reset != null;
+            assert today != null;
+            long difference = Math.abs(reset.getTime() - today.getTime());
+            long differenceDates = difference / (24 * 60 * 60 * 1000);
+            return (int) differenceDates;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }
