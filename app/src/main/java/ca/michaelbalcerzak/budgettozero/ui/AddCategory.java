@@ -66,6 +66,7 @@ public class AddCategory extends Activity {
         _footerDateMonth = findViewById(R.id.textView15);
         _footerDateBiMonthly1 = findViewById(R.id.textView17);
         _footerDateBiMonthly2 = findViewById(R.id.textView20);
+        _resetInterval = ResetInterval.NEVER;
         MaterialStyledDatePickerDialog.OnDateSetListener date = (view, year, month, day) -> {
             _calendar.set(Calendar.YEAR, year);
             _calendar.set(Calendar.MONTH, month);

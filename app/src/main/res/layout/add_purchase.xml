@@ -58,24 +58,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4"
         tools:ignore="DuplicateSpeakableTextCheck" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="184dp"
-        android:text="@string/new_remaining_budget"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTotalSpent" />
-
     <Button
         android:id="@+id/addNewCatagoryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
         android:onClick="addPurchaseClicked"
         android:text="@string/add_purchase"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -95,10 +87,10 @@
         android:layout_height="48dp"
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/progressBar"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.432" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textViewRemainingBudgetStart"
@@ -126,25 +118,13 @@
         app:layout_constraintVertical_bias="0.04" />
 
     <TextView
-        android:id="@+id/textView7"
-        android:layout_width="210dp"
-        android:layout_height="31dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/addNewCatagoryButton"
-        app:layout_constraintEnd_toEndOf="@+id/textView5"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="60dp"
         android:text="@string/purchase_date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.264"
+        app:layout_constraintHorizontal_bias="0.113"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTotalSpent" />
 
@@ -154,11 +134,11 @@
         android:layout_height="142dp"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
-        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintBottom_toTopOf="@+id/addNewCatagoryButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.322"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.065" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

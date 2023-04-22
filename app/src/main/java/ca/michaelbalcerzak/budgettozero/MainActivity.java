@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         ca.michaelbalcerzak.budgettozero.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        setSupportActionBar(binding.appBarMain.toolbar);
         //  setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(view -> {
             if (_allCategories.size() == 0) {
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         }
         int completionPercentage = PurchaseHelper.calculatePercentage(remainingBudgetAmounts, budgetAmount);
         String text;
-        if (numberOfDaysUntilReset != -1) {
+        if (numberOfDaysUntilReset != -1 && numberOfDaysUntilReset != 0) {
             text = "You have spent <b>" + completionPercentage + "%</b> of your budget <br> your budget will reset in <b>" + numberOfDaysUntilReset + "</b> days";
         } else {
             text = "You have spent <b>" + completionPercentage + "%</b> of your budget";
