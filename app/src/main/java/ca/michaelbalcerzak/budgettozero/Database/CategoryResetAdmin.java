@@ -63,4 +63,11 @@ public class CategoryResetAdmin extends MainDatabase {
         db.close();
         return resetFrequencyInfoStruct;
     }
+
+    public void updateCategoryReset(ResetFrequencyInfoStruct resetFrequency) {
+        ContentValues values = createContentValuesForReset(resetFrequency);
+        SQLiteDatabase db = getWritableDatabase();
+        db.update(CATEGORY_RESET_TABLE, values, CATEGORY_ID + " = ?", new String[]{resetFrequency.getCATEGORY_ID()});
+        db.close();
+    }
 }

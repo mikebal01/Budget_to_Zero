@@ -147,14 +147,20 @@ public class AddCategory extends Activity {
                         _resetInterval = ResetInterval.BI_WEEKLY;
                         _dayOfWeekLayout.setVisibility(View.VISIBLE);
                         findViewById(R.id.textView11).setVisibility(View.VISIBLE);
+                        _calendar = Calendar.getInstance();
+                        _calendar.add(Calendar.DATE, 14);
                         break;
                     case 4: //weekly
                         _resetInterval = ResetInterval.WEEKLY;
                         _dayOfWeekLayout.setVisibility(View.VISIBLE);
                         findViewById(R.id.textView11).setVisibility(View.VISIBLE);
+                        _calendar = Calendar.getInstance();
+                        _calendar.add(Calendar.DATE, 7);
                         break;
                     case 5: //Daily
                         _resetInterval = ResetInterval.DAILY;
+                        _calendar = Calendar.getInstance();
+                        _calendar.add(Calendar.DATE, 1);
                         break;
                 }
             }

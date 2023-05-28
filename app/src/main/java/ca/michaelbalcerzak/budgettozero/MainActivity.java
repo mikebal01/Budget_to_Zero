@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 .setOpenableLayout(drawer)
                 .build();
-
+        ResetProcessor.resetAllExpiredBudgets(this);
         createCategoryHeader();
         updateDisplayForCategory(SUMMARY);
     }
@@ -194,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        ResetProcessor.resetAllExpiredBudgets(this);
         setCurrencySymbol();
         createCategoryHeader();
         updateDisplayForCategory(SUMMARY);

@@ -78,4 +78,43 @@ public class DateHelper {
             return 0;
         }
     }
+
+    @SuppressLint("SimpleDateFormat")
+    public static boolean isTodayPastReset(String resetDate) {
+        try {
+            SimpleDateFormat dates = new SimpleDateFormat("dd-MM-yyyy");
+            Calendar calendar = Calendar.getInstance();
+            Date today = dates.parse(formatDateFromCalender(calendar));
+            Date reset = dates.parse(resetDate);
+            assert reset != null;
+            assert today != null;
+            return !today.before(reset);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static Calendar getNextMatchingDayOfWeek(String date, final int weekDayCount) {
+        Calendar calendar = getCalendarFromString(date);
+        Calendar today = Calendar.getInstance();
+        while (calendar.before(today)) {
+            calendar.add(Calendar.DATE, weekDayCount);
+        }
+        return calendar;
+    }
+
+    public static Calendar getCalendarFromString(String date) {
+        if (date.isEmpty()) {
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, getMonthFromStringDate(date));
+        calendar.set(Calendar.DAY_OF_MONTH, getDayFromStringDate(date));
+        calendar.set(Calendar.YEAR, getYearFromStringDate(date));
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar;
+    }
 }
