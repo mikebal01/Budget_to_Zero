@@ -167,8 +167,13 @@ public class MainActivity extends AppCompatActivity {
         }
         percentageFooter.setText(Html.fromHtml(text));
         progressBar.setProgress(completionPercentage);
-        String headerBudgetAmount = _displayCurrency + remainingBudgetAmounts + "/" + _displayCurrency + budgetAmount;
-        textviewRemainingAmount.setText(headerBudgetAmount);
+        if (remainingBudgetAmounts.length() > 4) {
+            text = _displayCurrency + remainingBudgetAmounts + " <br> of <br>" + _displayCurrency + budgetAmount;
+            textviewRemainingAmount.setText(Html.fromHtml(text));
+        } else {
+            String headerBudgetAmount = _displayCurrency + remainingBudgetAmounts + "/" + _displayCurrency + budgetAmount;
+            textviewRemainingAmount.setText(headerBudgetAmount);
+        }
     }
 
     private void updateRecentHistory(String category) {
