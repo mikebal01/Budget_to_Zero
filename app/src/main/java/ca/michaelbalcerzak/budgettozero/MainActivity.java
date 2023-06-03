@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         String remainingBudgetAmounts = "";
         int numberOfDaysUntilReset = -1;
         CategoryAdmin categoryAdmin = new CategoryAdmin(this);
+
         if (categoryName.equals(SUMMARY)) {
             budgetAmount += categoryAdmin.getSumOfTotalBudgets();
             remainingBudgetAmounts += categoryAdmin.getSumOfRemainingBudgetAmounts();
@@ -163,31 +164,34 @@ public class MainActivity extends AppCompatActivity {
         if (numberOfDaysUntilReset != -1 && numberOfDaysUntilReset != 0) {
             text = "You have spent <b>" + completionPercentage + "%</b> of your budget <br> your budget will reset in <b>" + numberOfDaysUntilReset + "</b> days";
         } else {
-            text = "You have spent <b>" + completionPercentage + "%</b> of your budget";
+            if (categoryName.equals(SUMMARY) && _allCategories.size() > 1) {
+                text = "You have spent <b>" + completionPercentage + "%</b> of your budgets";
+            } else {
+                text = "You have spent <b>" + completionPercentage + "%</b> of your budget";
+            }
         }
         percentageFooter.setText(Html.fromHtml(text));
         progressBar.setProgress(completionPercentage);
-        if (remainingBudgetAmounts.length() > 4) {
-            text = _displayCurrency + remainingBudgetAmounts + " <br> of <br>" + _displayCurrency + budgetAmount;
-            textviewRemainingAmount.setText(Html.fromHtml(text));
-        } else {
-            String headerBudgetAmount = _displayCurrency + remainingBudgetAmounts + "/" + _displayCurrency + budgetAmount;
-            textviewRemainingAmount.setText(headerBudgetAmount);
-        }
+
+        text = _displayCurrency + remainingBudgetAmounts;
+        textviewRemainingAmount.setText(Html.fromHtml(text));
     }
 
     private void updateRecentHistory(String category) {
         PurchaseAdmin purchaseAdmin = new PurchaseAdmin(this);
+        PurchaseHistoryListView adapter;
+        SummaryCategoryListView adapter2;
         ArrayList<PurchaseInfoStruct> mostRecentPurchases;
+        ListView historyList = findViewById(R.id.historyList);
         if (category.equals(SUMMARY)) {
-            mostRecentPurchases = purchaseAdmin.get25MostRecentPurchases();
+            adapter2 = new SummaryCategoryListView(this, _displayCurrency);
+            historyList.setAdapter(adapter2);
         } else {
             CategoryAdmin categoryAdmin = new CategoryAdmin(this);
             mostRecentPurchases = purchaseAdmin.get25MostRecentPurchasesForCategory(categoryAdmin.getCategoryByName(category).getCategoryPk());
+            adapter = new PurchaseHistoryListView(this, mostRecentPurchases, _displayCurrency);
+            historyList.setAdapter(adapter);
         }
-        PurchaseHistoryListView adapter = new PurchaseHistoryListView(this, mostRecentPurchases, _displayCurrency);
-        ListView historyList = findViewById(R.id.historyList);
-        historyList.setAdapter(adapter);
         registerForContextMenu(historyList);
     }
 

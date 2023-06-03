@@ -16,9 +16,6 @@ public class PurchaseHistoryListView extends BaseAdapter {
 
 
     public PurchaseHistoryListView(Activity context, ArrayList<PurchaseInfoStruct> purchases, String displayCurrency) {
-        // super(context, R.layout.purchasehistory);
-        // TODO Auto-generated constructor stub
-
         this.context = context;
         _purchases = purchases;
         _displayCurrency = displayCurrency;
@@ -49,9 +46,9 @@ public class PurchaseHistoryListView extends BaseAdapter {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.purchasehistory, null, true);
 
-        TextView purchaseDate = rowView.findViewById(R.id.purchaseDate);
+        TextView purchaseDate = rowView.findViewById(R.id.categoryName);
         TextView purchaseDescription = rowView.findViewById(R.id.purchaseDescription);
-        TextView purchaseCost = rowView.findViewById(R.id.purchaseCost);
+        TextView purchaseCost = rowView.findViewById(R.id.budgetAmount);
 
         purchaseDate.setText(_purchases.get(position).getSpendDate());
         purchaseDescription.setText(_purchases.get(position).getDescription());

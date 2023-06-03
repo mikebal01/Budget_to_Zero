@@ -6,7 +6,7 @@
     android:layout_weight="10"
     >
     <TextView
-        android:id="@+id/purchaseDate"
+        android:id="@+id/categoryName"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="Medium Text"
@@ -25,7 +25,7 @@
         />
 
     <TextView
-        android:id="@+id/purchaseCost"
+        android:id="@+id/budgetAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="2"
