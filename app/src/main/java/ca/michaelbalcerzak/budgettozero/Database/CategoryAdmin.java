@@ -144,4 +144,10 @@ public class CategoryAdmin extends MainDatabase{
         }
         return remainingBudget;
     }
+
+    public void deleteCategory(String categoryPk) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(CATEGORY_TABLE, CATEGORY_ID + " =?", new String[]{categoryPk});
+        db.close();
+    }
 }

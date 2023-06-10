@@ -70,4 +70,10 @@ public class CategoryResetAdmin extends MainDatabase {
         db.update(CATEGORY_RESET_TABLE, values, CATEGORY_ID + " = ?", new String[]{resetFrequency.getCATEGORY_ID()});
         db.close();
     }
+
+    public void deleteResetForCategory(String categoryPk) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(CATEGORY_RESET_TABLE, CATEGORY_ID + " =?", new String[]{categoryPk});
+        db.close();
+    }
 }

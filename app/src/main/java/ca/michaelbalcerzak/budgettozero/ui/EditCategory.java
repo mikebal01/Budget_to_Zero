@@ -1,10 +1,15 @@
 package ca.michaelbalcerzak.budgettozero.ui;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
+
+import androidx.appcompat.app.AlertDialog;
 
 import ca.michaelbalcerzak.budgettozero.CategoryInfoStruct;
 import ca.michaelbalcerzak.budgettozero.Database.CategoryAdmin;
+import ca.michaelbalcerzak.budgettozero.Database.CategoryResetAdmin;
+import ca.michaelbalcerzak.budgettozero.Database.PurchaseAdmin;
 import ca.michaelbalcerzak.budgettozero.R;
 
 public class EditCategory extends AddCategory {
@@ -19,6 +24,25 @@ public class EditCategory extends AddCategory {
         CATEGORY_PK = extras.getString("categoryPk");
         setContentView(R.layout.addnewcategory);
         setupVariables();
+        _deleteCategory.setVisibility(View.VISIBLE);
+        _deleteCategory.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(true);
+            builder.setTitle("Delete Category");
+            String text = "Are you sure you want to delete the category <b>" + _originalCategoryName + "</b>? <br> <br> Warning: This action can not be undone";
+            // builder.setMessage(getString(R.string.delete_confirm) + " " + purchaseInfo.getDescription() + " @ " + purchaseInfo.getSpendAmount());
+            builder.setMessage(Html.fromHtml(text));
+            builder.setPositiveButton(R.string.reset_confirm_confirm,
+                    (dialog, which) -> {
+                        deleteCategory();
+                        finish();
+                    });
+            builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
         populateCurrentCategoryInfo();
     }
     @Override
@@ -78,6 +102,15 @@ public class EditCategory extends AddCategory {
                 return -1;
             }
         }
-           return index;
+        return index;
+    }
+
+    private void deleteCategory() {
+        CategoryResetAdmin categoryResetAdmin = new CategoryResetAdmin(this);
+        PurchaseAdmin purchaseAdmin = new PurchaseAdmin(this);
+        CategoryAdmin categoryAdmin = new CategoryAdmin(this);
+        categoryResetAdmin.deleteResetForCategory(CATEGORY_PK);
+        purchaseAdmin.deleteAllPurchasesForCategory(CATEGORY_PK);
+        categoryAdmin.deleteCategory(CATEGORY_PK);
     }
 }

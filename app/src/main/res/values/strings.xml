@@ -66,7 +66,7 @@
     <string name="fifth_day_of_week">T</string>
     <string name="sixth_day_of_week">F</string>
     <string name="seventh_day_of_week">S</string>
-
+    <string name="description_delete_category">Button to delete the selected category</string>
     <string-array name="budget_frequency_array">
             <item>Never</item>
             <item>Monthly</item>

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ public class AddCategory extends Activity {
     TextView _footerDateMonth;
     TextView _footerDateBiMonthly1;
     TextView _footerDateBiMonthly2;
+    ImageButton _deleteCategory;
     Calendar _calendar;
     Calendar _calendar2;
 
@@ -66,6 +68,7 @@ public class AddCategory extends Activity {
         _footerDateMonth = findViewById(R.id.textView15);
         _footerDateBiMonthly1 = findViewById(R.id.textView17);
         _footerDateBiMonthly2 = findViewById(R.id.textView20);
+        _deleteCategory = findViewById(R.id.categoryDelete);
         _resetInterval = ResetInterval.NEVER;
         MaterialStyledDatePickerDialog.OnDateSetListener date = (view, year, month, day) -> {
             _calendar.set(Calendar.YEAR, year);
