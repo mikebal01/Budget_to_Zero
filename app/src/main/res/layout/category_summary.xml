@@ -68,6 +68,7 @@
             android:progressDrawable="@drawable/custom_progressbar2" />
 
         <TextView
+            android:id="@+id/daysIntoBudgetTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/PROGRESS_BAR2"
@@ -76,4 +77,10 @@
             android:paddingEnd="5dp"
             android:text="Days into Buget" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/categorySummaryFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 </LinearLayout>

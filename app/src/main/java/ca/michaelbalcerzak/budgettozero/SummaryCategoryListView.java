@@ -54,12 +54,13 @@ public class SummaryCategoryListView extends BaseAdapter {
         View rowView = inflater.inflate(R.layout.category_summary, null, true);
 
 
-        TextView categortyName = rowView.findViewById(R.id.categoryName);
+        TextView categoryName = rowView.findViewById(R.id.categoryName);
         TextView budgetAmount = rowView.findViewById(R.id.budgetAmount);
         ProgressBar budgetSpent = rowView.findViewById(R.id.PROGRESS_BAR);
         ProgressBar daysIntoBudget = rowView.findViewById(R.id.PROGRESS_BAR2);
+        TextView footer = rowView.findViewById(R.id.categorySummaryFooter);
 
-        categortyName.setText(_category.get(position).getName());
+        categoryName.setText(_category.get(position).getName());
         String headerBudgetAmount = _displayCurrency + _category.get(position).getRemainingBudgetAmount() + "/" + _displayCurrency + _category.get(position).getBudgetAmount();
         budgetAmount.setText(headerBudgetAmount);
         int completionPercentage = PurchaseHelper.calculatePercentage(_category.get(position).getRemainingBudgetAmount(), _category.get(position).getBudgetAmount());
@@ -70,7 +71,26 @@ public class SummaryCategoryListView extends BaseAdapter {
         String date = resetFrequency.getRESET_DATE();
         int daysUntilReset = DateHelper.getNumberOfDaysUntilReset(date);
         int intervalLength = ResetInterval.valueOf(_category.get(position).getResetInterval()).getDaysPerInterval();
-        daysIntoBudget.setProgress((intervalLength - daysUntilReset) * 100 / intervalLength);
+        int dayProgressPercentage = (intervalLength - daysUntilReset) * 100 / intervalLength;
+        daysIntoBudget.setProgress(dayProgressPercentage);
+        if (resetFrequency.getRESET_Frequency().equals("NEVER") || resetFrequency.getRESET_Frequency().equals("DAILY")) {
+            daysIntoBudget.setVisibility(View.GONE);
+            rowView.findViewById(R.id.daysIntoBudgetTextView).setVisibility(View.GONE);
+        }
+
+        footer.setText(getFooterText(completionPercentage, dayProgressPercentage));
         return rowView;
+    }
+
+    private String getFooterText(int completionPercentage, int dayProgressPercentage) {
+        String footer = "";
+        if (completionPercentage > 100) {
+            footer = this.context.getResources().getString(R.string.over_budget);
+        } else if (completionPercentage > dayProgressPercentage) {
+            footer = this.context.getResources().getString(R.string.ahead_of_spending);
+        } else if (completionPercentage > 0) {
+            footer = this.context.getResources().getString(R.string.on_track);
+        }
+        return footer;
     }
 }
