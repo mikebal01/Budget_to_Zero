@@ -88,7 +88,7 @@ public class SummaryCategoryListView extends BaseAdapter {
             footer = this.context.getResources().getString(R.string.over_budget);
         } else if (completionPercentage > dayProgressPercentage) {
             footer = this.context.getResources().getString(R.string.ahead_of_spending);
-        } else if (completionPercentage > 0) {
+        } else if (completionPercentage > 0 || dayProgressPercentage > 0) {
             footer = this.context.getResources().getString(R.string.on_track);
         }
         return footer;

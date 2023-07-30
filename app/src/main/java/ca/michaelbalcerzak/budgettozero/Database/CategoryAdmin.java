@@ -64,9 +64,9 @@ public class CategoryAdmin extends MainDatabase{
         while (!cursor.isAfterLast()) {
             CategoryViewList.add(new CategoryInfoStruct(cursor.getString(cursor.getColumnIndex(CATEGORY_ID)),
                                                               cursor.getString(cursor.getColumnIndex(NAME)),
-                                                              cursor.getString(cursor.getColumnIndex(BUDGET_AMOUNT)),
+                                                              String.valueOf(Math.round(100 * cursor.getDouble(cursor.getColumnIndex(BUDGET_AMOUNT)))/100),
                                                               cursor.getString(cursor.getColumnIndex(RESET_FREQUENCY_NAME)),
-                                                              cursor.getString(cursor.getColumnIndex(REMAINING_BUDGET_AMOUNT))));
+                    String.valueOf(Math.round(100 * cursor.getDouble(cursor.getColumnIndex(REMAINING_BUDGET_AMOUNT)))/100)));
             cursor.moveToNext();
         }
         cursor.close();
@@ -142,7 +142,8 @@ public class CategoryAdmin extends MainDatabase{
         if (remainingBudget == null) {
             return "0";
         }
-        return remainingBudget;
+        return String.valueOf(Math.round(100 * Double.valueOf(remainingBudget)) / 100);
+       // return remainingBudget;
     }
 
     public void deleteCategory(String categoryPk) {
