@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:layout_weight="10"
+    android:padding="10dp"
+    android:id="@+id/purchaseHistoryList"
     >
     <TextView
         android:id="@+id/categoryName"

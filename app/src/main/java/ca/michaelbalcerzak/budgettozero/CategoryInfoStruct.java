@@ -28,9 +28,10 @@ public class CategoryInfoStruct {
         return _budgetAmount;
     }
 
-    public String getRemainingBudgetAmount() { return String.valueOf(Math.round(100 * Double.valueOf(_remainingBudget))/100);
+    public String getRemainingBudgetAmount() {
+      //  return String.valueOf(Math.round(100 * Double.valueOf(_remainingBudget))/100);
 
-       // return _remainingBudget;
+        return _remainingBudget;
     }
 
     public String getResetInterval() {

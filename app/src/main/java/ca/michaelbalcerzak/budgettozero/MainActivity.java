@@ -186,6 +186,15 @@ public class MainActivity extends AppCompatActivity {
         if (category.equals(SUMMARY)) {
             adapter2 = new SummaryCategoryListView(this, _displayCurrency);
             historyList.setAdapter(adapter2);
+            historyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    CategoryInfoStruct selectedPurchase = (CategoryInfoStruct) adapter2.getItem(i);
+                    updateDisplayForCategory(selectedPurchase.getName());
+                    getCategoryIndexByName(selectedPurchase.getName());
+                    updateHeaderOnArrowClick();
+                }
+            });
         } else {
             CategoryAdmin categoryAdmin = new CategoryAdmin(this);
             mostRecentPurchases = purchaseAdmin.get25MostRecentPurchasesForCategory(categoryAdmin.getCategoryByName(category).getCategoryPk());
@@ -216,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
         if (v.getId() == R.id.selectedCategoryHeader) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.menu_list, menu);
-        } else {
+        } else if(v.getId() == R.id.historyList && _categoryIndex != 0) {
             ListView lv = (ListView) v;
             AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
             PurchaseInfoStruct selectedPurchase = (PurchaseInfoStruct) lv.getItemAtPosition(acmi.position);
@@ -323,5 +332,15 @@ public class MainActivity extends AppCompatActivity {
     private void setCurrencySymbol() {
         SettingsAdmin settingsAdmin = new SettingsAdmin(this);
         _displayCurrency = settingsAdmin.getSettingValue(settingsAdmin.DISPLAY_CURRENCY);
+    }
+
+    private void getCategoryIndexByName(String targetName){
+        int newIndex = 0;
+        for(CategoryInfoStruct category : _allCategories) {
+            if(category.getName().equals(targetName)){
+                _categoryIndex = newIndex;
+            }
+            newIndex++;
+        }
     }
 }
