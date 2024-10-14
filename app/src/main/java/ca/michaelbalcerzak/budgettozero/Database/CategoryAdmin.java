@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import ca.michaelbalcerzak.budgettozero.CategoryInfoStruct;
@@ -76,6 +77,7 @@ public class CategoryAdmin extends MainDatabase{
 
     @SuppressLint("Range")
     public CategoryInfoStruct getCategoryByPk(String categoryPk) {
+        DecimalFormat decimalFormatTwoDecimals = new DecimalFormat("########.00");
         final String query = "SELECT * FROM " + CATEGORY_TABLE + " WHERE " + CATEGORY_ID + " = " + categoryPk;
         SQLiteDatabase db = getReadableDatabase();
         CategoryInfoStruct category = null;
@@ -87,7 +89,7 @@ public class CategoryAdmin extends MainDatabase{
                                                cursor.getString(cursor.getColumnIndex(NAME)),
                                                cursor.getString(cursor.getColumnIndex(BUDGET_AMOUNT)),
                                                cursor.getString(cursor.getColumnIndex(RESET_FREQUENCY_NAME)),
-                                               cursor.getString(cursor.getColumnIndex(REMAINING_BUDGET_AMOUNT))));
+                    decimalFormatTwoDecimals.format(cursor.getDouble(cursor.getColumnIndex(REMAINING_BUDGET_AMOUNT)))));
         }
         cursor.close();
         db.close();
@@ -136,14 +138,15 @@ public class CategoryAdmin extends MainDatabase{
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
-        String remainingBudget = cursor.getString(0);
+        double remainingBudget = cursor.getDouble(0);
         cursor.close();
         db.close();
-        if (remainingBudget == null) {
+        DecimalFormat decimalFormatTwoDecimals = new DecimalFormat("########.00");
+        String remaining = decimalFormatTwoDecimals.format(remainingBudget);
+        if (remaining.equals(".00")) {
             return "0";
         }
-       // return String.valueOf(Math.round(100 * Double.valueOf(remainingBudget)) / 100);
-        return remainingBudget;
+        return decimalFormatTwoDecimals.format(remainingBudget);
     }
 
     public void deleteCategory(String categoryPk) {

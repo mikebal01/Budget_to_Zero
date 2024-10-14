@@ -28,7 +28,6 @@ public class SummaryCategoryListView extends BaseAdapter {
         _displayCurrency = displayCurrency;
     }
 
-
     @Override
     public int getCount() {
         return _category.size();
@@ -52,8 +51,6 @@ public class SummaryCategoryListView extends BaseAdapter {
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.category_summary, null, true);
-
-
         TextView categoryName = rowView.findViewById(R.id.categoryName);
         TextView budgetAmount = rowView.findViewById(R.id.budgetAmount);
         ProgressBar budgetSpent = rowView.findViewById(R.id.PROGRESS_BAR);
@@ -61,7 +58,7 @@ public class SummaryCategoryListView extends BaseAdapter {
         TextView footer = rowView.findViewById(R.id.categorySummaryFooter);
 
         categoryName.setText(_category.get(position).getName());
-        String headerBudgetAmount = _displayCurrency + _category.get(position).getRemainingBudgetAmount() + "/" + _displayCurrency + _category.get(position).getBudgetAmount();
+        String headerBudgetAmount = _displayCurrency + _category.get(position).getRemainingBudgetAmount() + "/" + _category.get(position).getBudgetAmount();
         budgetAmount.setText(headerBudgetAmount);
         int completionPercentage = PurchaseHelper.calculatePercentage(_category.get(position).getRemainingBudgetAmount(), _category.get(position).getBudgetAmount());
         budgetSpent.setProgress(completionPercentage);

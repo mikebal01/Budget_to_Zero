@@ -1,5 +1,7 @@
 package ca.michaelbalcerzak.budgettozero;
 
+import java.text.DecimalFormat;
+
 public class CategoryInfoStruct {
 
     private final String _categoryPk;
@@ -25,13 +27,21 @@ public class CategoryInfoStruct {
     }
 
     public String getBudgetAmount() {
-        return _budgetAmount;
+        DecimalFormat decimalFormatTwoDecimals = new DecimalFormat("########.00");
+        String value = decimalFormatTwoDecimals.format(Double.valueOf(_budgetAmount));
+        if (value.equals(".00")) {
+            return "0";
+        }
+        return value;
     }
 
     public String getRemainingBudgetAmount() {
-      //  return String.valueOf(Math.round(100 * Double.valueOf(_remainingBudget))/100);
-
-        return _remainingBudget;
+        DecimalFormat decimalFormatTwoDecimals = new DecimalFormat("########.00");
+        String value = decimalFormatTwoDecimals.format(Double.valueOf(_remainingBudget));
+        if (value.equals(".00")) {
+            return "0";
+        }
+        return value;
     }
 
     public String getResetInterval() {

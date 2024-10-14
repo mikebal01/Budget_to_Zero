@@ -57,9 +57,8 @@ public class MainActivity extends AppCompatActivity {
         ca.michaelbalcerzak.budgettozero.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarMain.toolbar);
-        //  setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(view -> {
-            if (_allCategories.size() == 0) {
+            if (_allCategories.isEmpty()) {
                 Toast.makeText(this, R.string.purchase_no_category,
                         Toast.LENGTH_LONG).show();
             } else {
@@ -225,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
         if (v.getId() == R.id.selectedCategoryHeader) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.menu_list, menu);
+
         } else if(v.getId() == R.id.historyList && _categoryIndex != 0) {
             ListView lv = (ListView) v;
             AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
