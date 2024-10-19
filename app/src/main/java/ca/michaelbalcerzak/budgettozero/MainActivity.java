@@ -188,10 +188,13 @@ public class MainActivity extends AppCompatActivity {
             historyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    CategoryInfoStruct selectedPurchase = (CategoryInfoStruct) adapter2.getItem(i);
-                    updateDisplayForCategory(selectedPurchase.getName());
-                    getCategoryIndexByName(selectedPurchase.getName());
-                    updateHeaderOnArrowClick();
+                    if (_categoryIndex == 0) {
+                        CategoryInfoStruct selectedPurchase = (CategoryInfoStruct) adapter2.getItem(i);
+                        updateDisplayForCategory(selectedPurchase.getName());
+                        getCategoryIndexByName(selectedPurchase.getName());
+                        updateHeaderOnArrowClick();
+                        _categoryIndex = i;
+                    }
                 }
             });
         } else {
@@ -326,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isHeaderCategorySummary() {
-        return _allCategories.size() == 0 || _allCategories.get(_categoryIndex).getCategoryPk() == null;
+        return _allCategories.isEmpty() || _allCategories.get(_categoryIndex).getCategoryPk() == null;
     }
 
     private void setCurrencySymbol() {

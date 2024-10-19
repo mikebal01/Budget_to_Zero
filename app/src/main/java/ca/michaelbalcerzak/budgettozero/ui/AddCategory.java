@@ -242,7 +242,7 @@ public class AddCategory extends Activity {
         if (isValidUserInput("")) {
             CategoryAdmin categoryAdmin = new CategoryAdmin(this);
             categoryAdmin.addCategory(createBudgetCategoryFromUserInput());
-            CategoryInfoStruct newCategory = categoryAdmin.getCategoryByName(createBudgetCategoryFromUserInput().getName());
+            CategoryInfoStruct newCategory = categoryAdmin.getCategoryByName(createBudgetCategoryFromUserInput().getName().replaceAll("'", "''"));
             CategoryResetAdmin categoryResetAdmin = new CategoryResetAdmin(this);
             ResetFrequencyInfoStruct resetFrequency = new ResetFrequencyInfoStruct(-1, newCategory.getCategoryPk(), _resetInterval.toString(), DateHelper.formatDateFromCalender(_calendar),
                     DateHelper.formatDateFromCalender(_calendar2), false);
@@ -269,7 +269,8 @@ public class AddCategory extends Activity {
             return false;
         }
         CategoryAdmin categoryAdmin = new CategoryAdmin(this);
-        if (categoryAdmin.getCategoryByName(_categoryName.getText().toString()) != null && !originalCategoryName.equals(_categoryName.getText().toString())) {
+        String sanitized = _categoryName.getText().toString().replaceAll("'", "''");
+        if (categoryAdmin.getCategoryByName(sanitized) != null && !originalCategoryName.equals(_categoryName.getText().toString())) {
             Toast.makeText(this, R.string.category_already_exists,
                     Toast.LENGTH_SHORT).show();
             return false;

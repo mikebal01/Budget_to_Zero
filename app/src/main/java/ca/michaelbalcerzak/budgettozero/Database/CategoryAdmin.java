@@ -97,6 +97,7 @@ public class CategoryAdmin extends MainDatabase{
     }
     @SuppressLint("Range")
     public CategoryInfoStruct getCategoryByName(String categoryName) {
+        categoryName = categoryName.replaceAll("'", "''");
         final String query = "SELECT * FROM " + CATEGORY_TABLE + " WHERE " + NAME + " = '" + categoryName + "'";
         SQLiteDatabase db = getReadableDatabase();
         CategoryInfoStruct category = null;
