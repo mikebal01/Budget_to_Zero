@@ -193,7 +193,14 @@ public class MainActivity extends AppCompatActivity {
                         updateDisplayForCategory(selectedPurchase.getName());
                         getCategoryIndexByName(selectedPurchase.getName());
                         updateHeaderOnArrowClick();
-                        _categoryIndex = i;
+                        _categoryIndex = ++i;
+                    } else {
+                        PurchaseInfoStruct selectedPurchase = (PurchaseInfoStruct) adapterView.getItemAtPosition(i);
+                        Intent openEditPurchase = new Intent(MainActivity.this, EditPurchase.class);
+                        openEditPurchase.putExtra("purchasePK", selectedPurchase.getPurchasePK());
+                        openEditPurchase.putExtra("categoryPK", selectedPurchase.getCategoryPK());
+                        _categoryIndex = 0;
+                        startActivity(openEditPurchase);
                     }
                 }
             });
